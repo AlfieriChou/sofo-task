@@ -1,4 +1,4 @@
-import * as Router from 'koa-router'
+import * as Router from 'express-router'
 import * as dir from 'dir_filenames'
 import { resolve } from 'path'
 import { Middleware } from '../../type'
