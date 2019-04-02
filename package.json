@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@trapts/schedule": "1.0.3",
+    "dir_filenames": "1.0.6",
     "koa": "2.7.0",
     "koa-bodyparser": "4.2.1",
     "koa-logger": "^3.2.0",
