@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Task management system.",
   "scripts": {
-    "start": "node build/server.js"
+    "start": "node build/server.js",
+    "format": "prettier --write \"**/*.ts\"",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json",
+    "tsc": "tsc -p tsconfig.json"
   },
   "husky": {
     "hooks": {
