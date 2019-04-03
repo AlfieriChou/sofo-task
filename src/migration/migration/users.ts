@@ -10,7 +10,7 @@ export const createUser: CreateTable = {
     password: { type: 'string', length: '32', comment: '用户密码' },
     age: { type: 'float', precision: 3, scale: 0, comment: '年龄' },
     description: { type: 'text', comment: '用户描述' },
-    user_type: { type: 'string', comment: '用户类型' },
+    user_type: { type: 'string', length: '32', comment: '用户类型' },
     created_at: { type: 'timestamp', comment: '创建时间' },
     updated_at: { type: 'datetime', comment: '更新时间' },
     deleted_at: { type: 'datetime', comment: '删除时间' }
