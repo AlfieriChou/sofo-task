@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node build/server.js",
     "format": "prettier --write \"**/*.ts\"",
+    "migration": "ts-node ./src/migration/migration.ts",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "tsc": "tsc -p tsconfig.json",
     "test": "jest --coverage --detectOpenHandles --forceExit"
@@ -31,6 +32,7 @@
     "pretty-quick": "1.10.0",
     "supertest": "4.0.2",
     "ts-jest": "24.0.1",
+    "ts-node": "8.0.3",
     "tsconfig-paths": "3.8.0",
     "tslint": "5.15.0",
     "tslint-config-prettier": "1.18.0",
@@ -44,6 +46,7 @@
     "koa": "2.7.0",
     "koa-bodyparser": "4.2.1",
     "koa-logger": "3.2.0",
-    "koa-router": "7.4.0"
+    "koa-router": "7.4.0",
+    "mysql": "2.16.0"
   }
 }
