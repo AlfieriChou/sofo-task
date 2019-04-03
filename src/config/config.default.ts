@@ -7,5 +7,11 @@ export const config: Config = {
     user: 'istar',
     password: 'iStar12345@',
     database: 'test'
+  },
+  redis: {
+    host: '140.143.194.238',
+    password: 'alfieri',
+    db: 1,
+    port: 6389
   }
 }

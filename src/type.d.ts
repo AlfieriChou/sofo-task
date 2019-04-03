@@ -4,6 +4,7 @@ export interface Config {
   env?: string
   port: number
   mysql: Mysql
+  redis: Redis
 }
 
 interface Mysql {
@@ -12,4 +13,11 @@ interface Mysql {
   password: string
   database: string
   port?: number
+}
+
+interface Redis {
+  host: string
+  password?: string
+  db?: number
+  port: number
 }
