@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Task management system.",
   "scripts": {
-    "start": "node build/server.js",
+    "start": "NODE_ENV=development node build/server.js",
     "format": "prettier --write \"**/*.ts\"",
     "migration": "ts-node ./src/migration/migration.ts",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
@@ -47,6 +47,7 @@
     "koa-bodyparser": "4.2.1",
     "koa-logger": "3.2.0",
     "koa-router": "7.4.0",
-    "mysql": "2.16.0"
+    "mysql": "2.16.0",
+    "reflect-metadata": "0.1.13"
   }
 }

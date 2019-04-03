@@ -3,9 +3,7 @@ import * as dir from 'dir_filenames'
 import { resolve } from 'path'
 import { Middleware } from '../../type'
 
-const router = new Router({
-  prefix: '/v1'
-})
+const router = new Router()
 
 type Prefix = (
   path: string
