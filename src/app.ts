@@ -6,7 +6,7 @@ import { loadControllers } from './app/decorator/router'
 
 const app = new Koa()
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development' || 'test') {
   app.use(logger())
 }
 
