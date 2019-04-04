@@ -1,56 +1,31 @@
 import { mergeDeep } from '../../../../../src/app/common'
 
-const isNotObjectTarget: string = 'test'
-const isObjectTarget: Object = {
-  test: 'test'
-}
-const isDeepObjectTarget: Object = {
-  test: {
-    what: 'hello'
-  }
-}
-const isNotObjectSource: string = 'merge'
-const isObjectSource: Object = {
-  sofo: 'test'
-}
-const isDeepObjectSource: Object = {
-  test: {
-    sofo: 'hello'
-  }
-}
-
-describe('Test common function!!!', () => {
-  test('mergeDeep target is not Object!!', done => {
-    const mergeNotObjectTarget = mergeDeep(isNotObjectTarget, isNotObjectSource)
-    expect(mergeNotObjectTarget).toBe('test')
-    done()
+describe('merge', () => {
+  it('should merge Objects and all nested Ones', () => {
+    const obj1 = { a: { a1: 'A1' }, c: 'C', d: {} }
+    const obj2 = { a: { a2: 'A2' }, b: { b1: 'B1' }, d: null }
+    const obj3 = { a: { a1: 'A1', a2: 'A2' }, b: { b1: 'B1' }, c: 'C', d: null }
+    expect(mergeDeep({}, obj1, obj2)).toEqual(obj3)
   })
-
-  test('mergeDeep source is not Object!!', done => {
-    const mergeNotObjectSource = mergeDeep(isObjectTarget, isNotObjectSource)
-    expect(mergeNotObjectSource).toMatchObject({
-      test: 'test'
-    })
-    done()
+  it('should behave like Object.assign on the top level', () => {
+    const obj1 = { a: { a1: 'A1' }, c: 'C' }
+    const obj2 = { a: undefined, b: { b1: 'B1' } }
+    expect(mergeDeep({}, obj1, obj2)).toEqual(Object.assign({}, obj1, obj2))
   })
-
-  test('mergeDeep target and source is normal Object', done => {
-    const mergeNormalObject = mergeDeep(isObjectTarget, isObjectSource)
-    expect(mergeNormalObject).toMatchObject({
-      test: 'test',
-      sofo: 'test'
-    })
-    done()
+  it('should not merge array values, just override', () => {
+    const obj1 = { a: ['A', 'B'] }
+    const obj2 = { a: ['C'], b: ['D'] }
+    expect(mergeDeep({}, obj1, obj2)).toEqual({ a: ['C'], b: ['D'] })
   })
-
-  test('mergeDeep target and target is deep Object!!', done => {
-    const mergeDeepObject = mergeDeep(isDeepObjectTarget, isDeepObjectSource)
-    expect(mergeDeepObject).toMatchObject({
-      test: {
-        what: 'hello',
-        sofo: 'hello'
-      }
-    })
-    done()
+  it('typed merge', () => {
+    expect(
+      mergeDeep<TestPosition>(new TestPosition(0, 0), new TestPosition(1, 1))
+    ).toEqual(new TestPosition(1, 1))
   })
 })
+
+class TestPosition {
+  constructor(public x: number = 0, public y: number = 0) {
+    /*empty*/
+  }
+}

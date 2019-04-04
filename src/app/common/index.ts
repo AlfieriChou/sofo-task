@@ -1,21 +1,35 @@
-export const mergeDeep = (target: any, ...sources) => {
-  if (!sources.length) return target
+export const mergeDeep = <T extends object = object>(
+  target: T,
+  ...sources: T[]
+): T => {
+  if (!sources.length) {
+    return target
+  }
   const source = sources.shift()
+  if (source === undefined) {
+    return target
+  }
 
-  if (isObject(target) && isObject(source)) {
-    for (const key in source) {
-      if (isObject(source[key])) {
-        if (!target[key]) Object.assign(target, { [key]: {} })
+  if (isMergebleObject(target) && isMergebleObject(source)) {
+    Object.keys(source).forEach(function(key: string) {
+      if (isMergebleObject(source[key])) {
+        if (!target[key]) {
+          target[key] = {}
+        }
         mergeDeep(target[key], source[key])
       } else {
-        Object.assign(target, { [key]: source[key] })
+        target[key] = source[key]
       }
-    }
+    })
   }
 
   return mergeDeep(target, ...sources)
 }
 
-const isObject = item => {
-  return item && typeof item === 'object' && !Array.isArray(item)
+const isObject = (item: any): boolean => {
+  return item !== null && typeof item === 'object'
+}
+
+const isMergebleObject = (item): boolean => {
+  return isObject(item) && !Array.isArray(item)
 }
