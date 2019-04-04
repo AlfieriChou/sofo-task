@@ -47,6 +47,7 @@ describe('Test common function!!!', () => {
     const mergeDeepObject = mergeDeep(isDeepObjectTarget, isDeepObjectSource)
     expect(mergeDeepObject).toMatchObject({
       test: {
+        what: 'hello',
         sofo: 'hello'
       }
     })
