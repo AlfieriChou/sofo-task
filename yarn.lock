@@ -437,12 +437,27 @@
   dependencies:
     "@types/koa" "*"
 
+"@types/koa-generic-session@*", "@types/koa-generic-session@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/koa-generic-session/-/koa-generic-session-1.0.2.tgz#9481adaa3d10f5f5cd6a2bc915e68e8f83adf80f"
+  integrity sha512-wiURua4baGwUkznpUEZUNbr5C4bN9npxQiIFJ7OWtkOV6KK3gNnrDLW4TgSL3YJAST3hh60TuiooSgKM950Rjg==
+  dependencies:
+    "@types/koa" "*"
+
 "@types/koa-logger@3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@types/koa-logger/-/koa-logger-3.1.1.tgz#bf759ba2f25b7562ffa30b09616bb1c1e5070fea"
   integrity sha512-wp2HaskkPugfwgXgNnc+idnReuJZSTTYQbkcxXjsMhp1kTc342PxDzTL9FXDgBfEvgt9NX1CCGjkwPKX2dlEKQ==
   dependencies:
     "@types/koa" "*"
+
+"@types/koa-redis@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@types/koa-redis/-/koa-redis-3.0.2.tgz#b6a94c3ceea9a54a3fe3e9903de220c1ebd1cb28"
+  integrity sha512-1oggXCAIYvZ4eVnJmxOQnBSRSHpehfs6hy64n01pyFP7bs8xQMNL2qyp+RjfJIyQeD5jZjrj2KnjOz7ArqAa6Q==
+  dependencies:
+    "@types/koa-generic-session" "*"
+    "@types/redis" "*"
 
 "@types/koa-router@7.0.40":
   version "7.0.40"
@@ -477,6 +492,13 @@
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
   integrity sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
+
+"@types/redis@*":
+  version "2.8.12"
+  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.12.tgz#6405d7ece0d6cc037151b7141cef9ad3cd06f3ac"
+  integrity sha512-eT5cGYr08OnF6OlAHdc2hVOBAKBpfQQNQHsWEvUwRPFiXRd+vv+hOHSSIo4xB7M5vZOZdjMT2OUlXYqo3YlIGQ==
+  dependencies:
+    "@types/node" "*"
 
 "@types/serve-static@*":
   version "1.13.2"
@@ -1005,7 +1027,21 @@ co-body@^6.0.0:
     raw-body "^2.3.3"
     type-is "^1.6.16"
 
-co@^4.6.0:
+co-redis@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/co-redis/-/co-redis-2.1.1.tgz#8bc3717977c9ee5bfb6b28f39ae01bcf724d2dde"
+  integrity sha1-i8NxeXfJ7lv7ayjzmuAbz3JNLd4=
+  dependencies:
+    es6-promisify "^4.1.0"
+
+co-wrap-all@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/co-wrap-all/-/co-wrap-all-1.0.0.tgz#370ae3e8333510a53f6b2f7fdfbe4568a11b7ecf"
+  integrity sha1-Nwrj6DM1EKU/ay9/375FaKEbfs8=
+  dependencies:
+    co "^4.0.0"
+
+co@^4.0.0, co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
   integrity sha1-bqa989hTrlTMuOR7+gvz+QMfsYQ=
@@ -1104,7 +1140,7 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
-copy-to@^2.0.1:
+copy-to@^2.0.1, copy-to@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/copy-to/-/copy-to-2.0.1.tgz#2680fbb8068a48d08656b6098092bdafc906f4a5"
   integrity sha1-JoD7uAaKSNCGVrYJgJK9r8kG9KU=
@@ -1128,6 +1164,11 @@ cosmiconfig@^5.0.7:
     is-directory "^0.3.1"
     js-yaml "^3.13.0"
     parse-json "^4.0.0"
+
+crc@~3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/crc/-/crc-3.5.0.tgz#98b8ba7d489665ba3979f59b21381374101a1964"
+  integrity sha1-mLi6fUiWZbo5efWbITgTdBAaGWQ=
 
 cron@^1.6.0:
   version "1.7.0"
@@ -1335,6 +1376,11 @@ domexception@^1.0.1:
   dependencies:
     webidl-conversions "^4.0.2"
 
+double-ended-queue@^2.1.0-0:
+  version "2.1.0-0"
+  resolved "https://registry.yarnpkg.com/double-ended-queue/-/double-ended-queue-2.1.0-0.tgz#103d3527fd31528f40188130c841efdd78264e5c"
+  integrity sha1-ED01J/0xUo9AGIEwyEHv3XgmTlw=
+
 ecc-jsbn@~0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz#3a83a904e54353287874c564b7549386849a98c9"
@@ -1387,6 +1433,18 @@ es-to-primitive@^1.2.0:
     is-callable "^1.1.4"
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
+
+es6-promise@^3.2.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-3.3.1.tgz#a08cdde84ccdbf34d027a1451bc91d4bcd28a613"
+  integrity sha1-oIzd6EzNvzTQJ6FFG8kdS80ophM=
+
+es6-promisify@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/es6-promisify/-/es6-promisify-4.1.0.tgz#dbcc1a3e93fdb8e9e709744182b7d2080c03fdb3"
+  integrity sha1-28waPpP9uOnnCXRBgrfSCAwD/bM=
+  dependencies:
+    es6-promise "^3.2.1"
 
 escape-html@^1.0.3:
   version "1.0.3"
@@ -2866,6 +2924,17 @@ koa-convert@^1.2.0:
     co "^4.6.0"
     koa-compose "^3.0.0"
 
+koa-generic-session@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/koa-generic-session/-/koa-generic-session-2.0.1.tgz#d6bdf4f288b2f553065d049a630c28c76d877ccf"
+  integrity sha512-yw+sG7PdfIX8HBFMjvpmnQWoGHpo07BgMAem3PMM8UEKO9jaZeJu5ywtatYduWGrc5XfGu7Tgw8zQEcdSCunxw==
+  dependencies:
+    copy-to "~2.0.1"
+    crc "~3.5.0"
+    debug "~3.1.0"
+    parseurl "~1.3.1"
+    uid-safe "~2.1.4"
+
 koa-is-json@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/koa-is-json/-/koa-is-json-1.0.0.tgz#273c07edcdcb8df6a2c1ab7d59ee76491451ec14"
@@ -2880,6 +2949,16 @@ koa-logger@3.2.0:
     chalk "^1.1.3"
     humanize-number "0.0.2"
     passthrough-counter "^1.0.0"
+
+koa-redis@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/koa-redis/-/koa-redis-3.1.3.tgz#b1015bc243d081226737a60f73c46322a6fb5f78"
+  integrity sha512-dahipG78zLfMtLQK5zcDaFt3FJOC0dNkIuUoWH/aqU0cO2S+K6jqJIexS1CF4BsPDDr+b/wxkECFAfs508PoWQ==
+  dependencies:
+    co-redis "^2.1.1"
+    co-wrap-all "^1.0.0"
+    debug "^3.1.0"
+    redis "^2.8.0"
 
 koa-router@7.4.0:
   version "7.4.0"
@@ -3527,7 +3606,7 @@ parse5@4.0.0:
   resolved "https://registry.yarnpkg.com/parse5/-/parse5-4.0.0.tgz#6d78656e3da8d78b4ec0b906f7c08ef1dfe3f608"
   integrity sha512-VrZ7eOd3T1Fk4XWNXMgiGBK/z0MG48BWG2uQNU4I72fkQuKUTZpl+u9k+CxEG0twMVzSmXEEz12z5Fnw1jIQFA==
 
-parseurl@^1.3.2:
+parseurl@^1.3.2, parseurl@~1.3.1:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/parseurl/-/parseurl-1.3.2.tgz#fc289d4ed8993119460c156253262cdc8de65bf3"
   integrity sha1-/CidTtiZMRlGDBViUyYs3I3mW/M=
@@ -3717,6 +3796,11 @@ qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
+random-bytes@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/random-bytes/-/random-bytes-1.0.0.tgz#4f68a1dc0ae58bd3fb95848c30324db75d64360b"
+  integrity sha1-T2ih3Arli9P7lYSMMDJNt11kNgs=
+
 raw-body@^2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/raw-body/-/raw-body-2.3.3.tgz#1b324ece6b5706e153855bc1148c65bb7f6ea0c3"
@@ -3785,7 +3869,26 @@ rechoir@^0.6.2:
   dependencies:
     resolve "^1.1.6"
 
-reflect-metadata@^0.1.13:
+redis-commands@^1.2.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/redis-commands/-/redis-commands-1.4.0.tgz#52f9cf99153efcce56a8f86af986bd04e988602f"
+  integrity sha512-cu8EF+MtkwI4DLIT0x9P8qNTLFhQD4jLfxLR0cCNkeGzs87FN6879JOJwNQR/1zD7aSYNbU0hgsV9zGY71Itvw==
+
+redis-parser@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/redis-parser/-/redis-parser-2.6.0.tgz#52ed09dacac108f1a631c07e9b69941e7a19504b"
+  integrity sha1-Uu0J2srBCPGmMcB+m2mUHnoZUEs=
+
+redis@^2.8.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/redis/-/redis-2.8.0.tgz#202288e3f58c49f6079d97af7a10e1303ae14b02"
+  integrity sha512-M1OkonEQwtRmZv4tEWF2VgpG0JWJ8Fv1PhlgT5+B+uNq2cA3Rt1Yt/ryoR+vQNOQcIEgdCdfH0jr3bDpihAw1A==
+  dependencies:
+    double-ended-queue "^2.1.0-0"
+    redis-commands "^1.2.0"
+    redis-parser "^2.6.0"
+
+reflect-metadata@0.1.13:
   version "0.1.13"
   resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
   integrity sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
@@ -4566,6 +4669,13 @@ uglify-js@^3.1.4:
   dependencies:
     commander "~2.19.0"
     source-map "~0.6.1"
+
+uid-safe@~2.1.4:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/uid-safe/-/uid-safe-2.1.5.tgz#2b3d5c7240e8fc2e58f8aa269e5ee49c0857bd3a"
+  integrity sha512-KPHm4VL5dDXKz01UuEd88Df+KzynaohSL9fBh096KWAxSKZQDI2uBrVqtvRM4rwrIrRRKsdLNML/lnaaVSRioA==
+  dependencies:
+    random-bytes "~1.0.0"
 
 unc-path-regex@^0.1.2:
   version "0.1.2"

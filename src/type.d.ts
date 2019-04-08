@@ -1,3 +1,6 @@
+import * as Koa from 'koa'
+import { Session } from 'koa-generic-session'
+
 export type Middleware = (ctx: Koa.Context, next?: any) => any | Promise<any>
 
 export interface Config {
@@ -20,4 +23,15 @@ interface Redis {
   password?: string
   db?: number
   port: number
+}
+
+declare module 'koa' {
+  interface Request extends Koa.BaseRequest {
+    body: any
+  }
+
+  interface Context extends Koa.BaseContext {
+    session: Session | null
+    request: Request
+  }
 }
