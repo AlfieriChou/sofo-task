@@ -45,6 +45,8 @@
   },
   "dependencies": {
     "@trapts/schedule": "1.0.3",
+    "class-transformer": "0.2.0",
+    "class-transformer-validator": "0.7.1",
     "dir_filenames": "1.0.6",
     "knex": "0.16.3",
     "koa": "2.7.0",
