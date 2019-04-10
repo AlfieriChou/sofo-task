@@ -13,7 +13,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "pretty-quick --staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "typings": "./src/type.d.ts",
@@ -21,6 +22,8 @@
   "author": "AlfieriChou <alfierichou@gmail.com>",
   "private": true,
   "devDependencies": {
+    "@commitlint/cli": "7.5.2",
+    "@commitlint/config-conventional": "7.5.0",
     "@types/jest": "24.0.11",
     "@types/knex": "0.16.1",
     "@types/koa": "2.0.48",
