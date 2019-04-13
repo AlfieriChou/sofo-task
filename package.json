@@ -46,7 +46,7 @@
     "nodemon": "1.18.10",
     "prettier": "1.16.4",
     "pretty-quick": "1.10.0",
-    "standard-version": "^5.0.2",
+    "standard-version": "5.0.2",
     "supertest": "4.0.2",
     "ts-jest": "24.0.1",
     "ts-node": "8.0.3",
