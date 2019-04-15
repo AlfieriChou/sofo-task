@@ -4,6 +4,7 @@ import * as logger from 'koa-logger'
 import * as bodyParser from 'koa-bodyparser'
 import * as session from 'koa-generic-session'
 import * as redisStrore from 'koa-redis'
+import * as jwt from 'koa-jwt'
 import { config } from './config'
 import { loadControllers } from './app/decorator/router'
 import { Middleware } from './type'
@@ -52,6 +53,13 @@ const cors: Middleware = async (ctx, next) => {
   }
 }
 
+app.use(
+  jwt({
+    secret: 'sofo-task'
+  }).unless({
+    path: [/\/register/, /\/login/, /\//]
+  })
+)
 app.use(redisSession)
 app.use(cors)
 if (process.env.NODE_ENV === 'development' || 'test') {
