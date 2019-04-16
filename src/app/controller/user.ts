@@ -10,7 +10,11 @@ export class UserController extends BaseController {
   async login(ctx: Context) {
     const params = super.deserialize(Login, ctx.request.body)
     await super.validate(Login, ctx.request.body)
-    ctx.body = params
+    const result = await new UserService().login(params)
+    if (ctx.session) {
+      ctx.session['user'] = result
+    }
+    ctx.body = result
   }
 
   @route('/register', Method.POST)

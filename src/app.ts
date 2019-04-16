@@ -60,6 +60,7 @@ app.use(
     path: [/\/register/, /\/login/, /\//]
   })
 )
+app.keys = ['sofo', 'task']
 app.use(redisSession)
 app.use(cors)
 if (process.env.NODE_ENV === 'development' || 'test') {
