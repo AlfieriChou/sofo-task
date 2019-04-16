@@ -14,8 +14,7 @@ export class BaseService {
   }
 
   async exists(table: string, condition: Object) {
-    const exist = await knex
-      .select(table)
+    const exist = await knex(table)
       .where(condition)
       .first()
     if (!exist) throw new NotFoundException('Not Exists.')

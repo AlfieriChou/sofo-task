@@ -27,3 +27,9 @@ export class User {
   updated_at!: Date
   deleted_at!: Date
 }
+
+export class Update {
+  id: number
+  age!: number
+  description!: string
+}

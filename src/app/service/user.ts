@@ -38,19 +38,28 @@ export class UserService extends BaseService {
   }
 
   async login(params) {
-    const account = await knex('sofo_users')
+    const user = await knex('sofo_users')
       .where('username', params.username)
       .whereNull('deleted_at')
       .first()
-    if (!account) this.error(404, '该账号不存在！！！')
-    if (bcrypt.compare(params.password, account.password)) {
-      const token = this.createToken(account)
+    if (!user) this.error(404, '该账号不存在！！！')
+    if (bcrypt.compare(params.password, user.password)) {
+      const token = this.createToken(user)
       return {
-        account: account,
+        user: user,
         token: token
       }
     } else {
       this.error(401, '登录失败')
     }
+  }
+
+  async update(params) {
+    await this.exists('sofo_users', { id: params.id })
+    params.updated_at = new Date()
+    const result = await knex('sofo_users')
+      .where('id', params.id)
+      .update(params)
+    return result
   }
 }
