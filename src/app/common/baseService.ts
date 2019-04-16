@@ -1,6 +1,7 @@
 import { Config } from '../../type'
 import { config } from '../../config'
-import { ApiErrorException } from './exception'
+import { ApiErrorException, NotFoundException } from './exception'
+import { knex } from '../../database'
 
 export class BaseService {
   config: Config
@@ -10,5 +11,14 @@ export class BaseService {
 
   public error(code: number, message: string): void {
     throw new ApiErrorException(message, code)
+  }
+
+  async exists(table: string, condition: Object) {
+    const exist = await knex
+      .select(table)
+      .where(condition)
+      .first()
+    if (!exist) throw new NotFoundException('Not Exists.')
+    return exist
   }
 }
