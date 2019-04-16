@@ -19,7 +19,8 @@ describe('User register!!!', () => {
     const response = await request(app.callback())
       .post('/v1/register')
       .send({
-        username: 'asssssssssssssssssssssssssss',
+        username:
+          'asssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
         password: 'dddddd',
         age: 32,
         description: 'csdsds'
@@ -52,19 +53,6 @@ describe('User register!!!', () => {
         description: 'csdsds'
       })
     expect(response.status).toBe(422)
-    done()
-  })
-
-  test('password max length!!', async done => {
-    const response = await request(app.callback())
-      .post('/v1/register')
-      .send({
-        username: 'addd',
-        password: 'ddsssssss',
-        age: 32,
-        description: 'csdsds'
-      })
-    expect(response.status).toBe(200)
     done()
   })
 })

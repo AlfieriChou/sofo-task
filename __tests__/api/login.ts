@@ -17,7 +17,8 @@ describe('User login!!!', () => {
     const response = await request(app.callback())
       .post('/v1/login')
       .send({
-        username: 'asssssssssssssssssssssssssss',
+        username:
+          'asssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
         password: 'dddddd'
       })
     expect(response.status).toBe(422)
@@ -51,8 +52,8 @@ describe('User login!!!', () => {
     const response = await request(app.callback())
       .post('/v1/login')
       .send({
-        username: 'abc',
-        password: 'dddddd'
+        username: 'wang',
+        password: 'jundasdasd'
       })
     expect(response.status).toBe(200)
     done()
