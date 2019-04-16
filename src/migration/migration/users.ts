@@ -7,7 +7,7 @@ export const createUser: CreateTable = {
   column: {
     id: { type: 'increments' },
     username: { type: 'string', length: '32', comment: '用户名' },
-    password: { type: 'string', length: '32', comment: '用户密码' },
+    password: { type: 'string', length: '64', comment: '用户密码' },
     age: { type: 'float', precision: 3, scale: 0, comment: '年龄' },
     description: { type: 'text', comment: '用户描述' },
     user_type: { type: 'string', length: '32', comment: '用户类型' },
