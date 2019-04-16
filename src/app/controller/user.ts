@@ -31,6 +31,12 @@ export class UserController extends BaseController {
     ctx.body = await new UserService().register(params)
   }
 
+  @route('/users/:id', Method.GET)
+  async show(ctx: Context) {
+    const params = ctx.params
+    ctx.body = await new UserService().show(params)
+  }
+
   @route('/users/:id', Method.PUT)
   async update(ctx: Context) {
     const params = super.deserialize(
@@ -39,5 +45,11 @@ export class UserController extends BaseController {
     )
     await super.validate(Update, Object.assign(ctx.request.body, ctx.params))
     ctx.body = await new UserService().update(params)
+  }
+
+  @route('/users/:id', Method.DELETE)
+  async destroy(ctx: Context) {
+    const params = ctx.params
+    ctx.body = await new UserService().destroy(params)
   }
 }
