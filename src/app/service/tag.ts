@@ -8,8 +8,9 @@ export class TagService extends BaseService {
       .whereNull('deleted_at')
       .first()
     if (tag) this.error(400, '该标签已存在')
-    const result = await knex('sofo_tags').insert(params)
-    return result
+    const [id] = await knex('sofo_tags').insert(params)
+    params.id = id
+    return params
   }
 
   async show(params) {

@@ -3,7 +3,7 @@ import { Operation } from '../enum'
 
 export const createTag: CreateTable = {
   opt: Operation.create,
-  table: 'sofo-tags',
+  table: 'sofo_tags',
   column: {
     id: { type: 'increments' },
     user_id: { type: 'integer', comment: '关联用户' },

@@ -28,13 +28,14 @@ export class UserService extends BaseService {
       .first()
     if (exists) this.error(400, '该用户名已存在！！')
     const password = await bcrypt.hash(params.password, 10)
-    const result: User = await knex('sofo_users').insert({
+    const [id] = await knex('sofo_users').insert({
       username: params.username,
       password: password,
       age: params.age || 0,
       description: params.description || ''
     })
-    return result
+    params.id = id
+    return params
   }
 
   async login(params) {
