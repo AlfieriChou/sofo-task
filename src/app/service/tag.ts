@@ -13,12 +13,12 @@ export class TagService extends BaseService {
   }
 
   async show(params) {
-    const result = await this.exists('sofo_users', { id: params.id })
+    const result = await this.exists('sofo_tags', { id: params.id })
     return result
   }
 
   async update(params) {
-    await this.exists('sofo_users', { id: params.id })
+    await this.exists('sofo_tags', { id: params.id })
     params.updated_at = new Date()
     const result = await knex('sofo_tags')
       .where('id', params.id)
@@ -27,7 +27,7 @@ export class TagService extends BaseService {
   }
 
   async destroy(params) {
-    await this.exists('sofo_users', { id: params.id })
+    await this.exists('sofo_tags', { id: params.id })
     const result = await knex('sofo_tags')
       .where('id', params.id)
       .update({ deleted_at: new Date() })
