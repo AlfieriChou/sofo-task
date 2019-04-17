@@ -8,6 +8,7 @@ import * as jwt from 'koa-jwt'
 import { config } from './config'
 import { loadControllers } from './app/decorator/router'
 import { Middleware } from './type'
+import { JWTMiddleware } from './middleware/JWTtoken'
 
 const app = new Koa()
 
@@ -53,16 +54,17 @@ const cors: Middleware = async (ctx, next) => {
   }
 }
 
+app.use(JWTMiddleware())
+app.keys = ['sofo', 'task']
+app.use(redisSession)
+app.use(cors)
 app.use(
   jwt({
-    secret: 'sofo-task'
+    secret: 'sofo'
   }).unless({
     path: [/\/register/, /\/login/, /\//]
   })
 )
-app.keys = ['sofo', 'task']
-app.use(redisSession)
-app.use(cors)
 if (process.env.NODE_ENV === 'development' || 'test') {
   app.use(logger())
 }
