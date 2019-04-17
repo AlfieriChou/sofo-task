@@ -2,34 +2,34 @@ import { Length } from 'class-validator'
 
 export class Register {
   @Length(3, 32)
-  username: string
+  username!: string
   @Length(6, 32)
-  password: string
+  password!: string
   age?: number
   description?: string
 }
 
 export class Login {
   @Length(3, 32)
-  username: string
+  username!: string
   @Length(6, 32)
-  password: string
+  password!: string
 }
 
 export class User {
-  id!: number
-  username!: string
-  password!: string
-  age!: number
-  description!: string
-  user_type!: string
-  created_at!: Date
-  updated_at!: Date
-  deleted_at!: Date
+  id?: number
+  username?: string
+  password?: string
+  age?: number
+  description?: string
+  user_type?: string
+  created_at?: Date
+  updated_at?: Date
+  deleted_at?: Date
 }
 
 export class Update {
   id: number
-  age!: number
-  description!: string
+  age?: number
+  description?: string
 }
