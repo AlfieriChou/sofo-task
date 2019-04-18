@@ -9,4 +9,28 @@ export class TaskService extends BaseService {
     params.id = id
     return params
   }
+
+  async show(params) {
+    const result = await this.exists('sofo_tasks', { id: params.id })
+    return result
+  }
+
+  async update(params) {
+    await this.exists('sofo_tasks', { id: params.id })
+    params.updated_at = new Date()
+    const result = await knex('sofo_tasks')
+      .where('id', params.id)
+      .update(params)
+    return result
+  }
+
+  async destroy(params) {
+    await this.exists('sofo_tasks', { id: params.id })
+    const result = await knex('sofo_tasks')
+      .where('id', params.id)
+      .update({
+        deleted_at: new Date()
+      })
+    return result
+  }
 }

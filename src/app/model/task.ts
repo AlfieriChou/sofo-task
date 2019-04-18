@@ -13,3 +13,12 @@ export class Create {
   @IsDateString()
   end_at!: Date
 }
+
+export class Update {
+  @IsString()
+  content!: string
+  @IsDateString()
+  start_at!: Date
+  @IsDateString()
+  end_at!: Date
+}
