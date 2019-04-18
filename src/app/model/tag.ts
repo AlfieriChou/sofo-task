@@ -6,7 +6,7 @@ export class Create {
   user_id!: number
   @Length(1, 16)
   tag!: string
-  description?: string
+  description!: string
 }
 
 export class Update {

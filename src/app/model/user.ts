@@ -7,8 +7,11 @@ export class Register {
   @Length(6, 32)
   password!: string
   @Transform(value => Number(value))
-  age?: number
-  description?: string
+  @ValidateIf(o => o.otherProperty === 'value')
+  age!: number
+  @ValidateIf(o => o.otherProperty === 'value')
+  @IsString()
+  description!: string
 }
 
 export class Login {

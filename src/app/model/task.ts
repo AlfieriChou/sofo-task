@@ -17,11 +17,11 @@ export class Create {
 export class Update {
   @ValidateIf(o => o.otherProperty === 'value')
   @IsString()
-  content?: string
+  content!: string
   @ValidateIf(o => o.otherProperty === 'value')
   @IsDateString()
-  start_at?: Date
+  start_at!: Date
   @ValidateIf(o => o.otherProperty === 'value')
   @IsDateString()
-  end_at?: Date
+  end_at!: Date
 }
