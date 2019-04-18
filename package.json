@@ -1,6 +1,6 @@
 {
   "name": "sofo-task",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Task management system.",
   "scripts": {
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts",
