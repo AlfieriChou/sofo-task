@@ -9,7 +9,6 @@ export const createTask: CreateTable = {
     user_id: { type: 'integer', comment: '关联用户' },
     tag_id: { type: 'integer', comment: '关联标签id' },
     content: { type: 'text', comment: '内容' },
-    date: { type: 'date', comment: '日期' },
     start_at: { type: 'datetime', comment: '开始时间' },
     end_at: { type: 'datetime', comment: '结束时间' },
     created_at: { type: 'timestamp', comment: '创建时间' },

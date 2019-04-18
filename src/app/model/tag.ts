@@ -1,7 +1,8 @@
-import { Length, IsNumber } from 'class-validator'
+import { Length } from 'class-validator'
+import { Transform } from 'class-transformer'
 
 export class Create {
-  @IsNumber()
+  @Transform(value => Number(value))
   user_id!: number
   @Length(1, 16)
   tag!: string
@@ -9,7 +10,7 @@ export class Create {
 }
 
 export class Update {
-  @IsNumber()
+  @Transform(value => Number(value))
   id: number
   description?: string
 }

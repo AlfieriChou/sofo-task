@@ -1,13 +1,15 @@
-import { IsString, IsNumber } from 'class-validator'
+import { IsString, IsDateString } from 'class-validator'
+import { Transform } from 'class-transformer'
 
 export class Create {
-  @IsNumber()
+  @Transform(value => Number(value))
   user_id!: number
-  @IsNumber()
+  @Transform(value => Number(value))
   tag_id!: number
   @IsString()
   content!: string
-  date!: Date
+  @IsDateString()
   start_at!: Date
+  @IsDateString()
   end_at!: Date
 }

@@ -2,6 +2,7 @@ import { prefix, route, Method } from '../decorator/router'
 import { Context } from 'koa'
 import { BaseController } from '../common/baseController'
 import { Create } from '../model/task'
+import { TaskService } from '../service/task'
 
 @prefix('/v1')
 export class TaskController extends BaseController {
@@ -14,8 +15,8 @@ export class TaskController extends BaseController {
   @route('/tasks', Method.POST)
   async create(ctx: Context) {
     const params = super.deserialize(Create, ctx.request.body)
-    await super.validate(Create, ctx.request.body)
-    ctx.body = params
+    await super.validate(Create, params)
+    ctx.body = await new TaskService().create(params)
   }
 
   @route('/tasks/:id', Method.GET)

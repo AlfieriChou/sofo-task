@@ -1,10 +1,12 @@
 import { Length } from 'class-validator'
+import { Transform } from 'class-transformer'
 
 export class Register {
   @Length(3, 32)
   username!: string
   @Length(6, 32)
   password!: string
+  @Transform(value => Number(value))
   age?: number
   description?: string
 }
