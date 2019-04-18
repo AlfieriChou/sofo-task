@@ -1,4 +1,4 @@
-import { IsString, IsDateString } from 'class-validator'
+import { IsString, IsDateString, ValidateIf } from 'class-validator'
 import { Transform } from 'class-transformer'
 
 export class Create {
@@ -15,10 +15,13 @@ export class Create {
 }
 
 export class Update {
+  @ValidateIf(o => o.otherProperty === 'value')
   @IsString()
-  content!: string
+  content?: string
+  @ValidateIf(o => o.otherProperty === 'value')
   @IsDateString()
-  start_at!: Date
+  start_at?: Date
+  @ValidateIf(o => o.otherProperty === 'value')
   @IsDateString()
-  end_at!: Date
+  end_at?: Date
 }

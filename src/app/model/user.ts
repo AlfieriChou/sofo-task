@@ -1,4 +1,4 @@
-import { Length } from 'class-validator'
+import { Length, ValidateIf, IsNumber, IsString } from 'class-validator'
 import { Transform } from 'class-transformer'
 
 export class Register {
@@ -32,6 +32,10 @@ export class User {
 
 export class Update {
   id: number
-  age?: number
-  description?: string
+  @ValidateIf(o => o.otherProperty === 'value')
+  @IsNumber()
+  age!: number
+  @ValidateIf(o => o.otherProperty === 'value')
+  @IsString()
+  description!: string
 }

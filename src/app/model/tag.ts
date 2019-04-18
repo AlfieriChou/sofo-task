@@ -1,4 +1,4 @@
-import { Length } from 'class-validator'
+import { Length, ValidateIf, IsString } from 'class-validator'
 import { Transform } from 'class-transformer'
 
 export class Create {
@@ -12,7 +12,9 @@ export class Create {
 export class Update {
   @Transform(value => Number(value))
   id: number
-  description?: string
+  @ValidateIf(o => o.otherProperty === 'value')
+  @IsString()
+  description!: string
 }
 
 export class Tag {
