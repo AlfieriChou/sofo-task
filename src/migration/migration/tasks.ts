@@ -7,7 +7,7 @@ export const createTask: CreateTable = {
   column: {
     id: { type: 'increments' },
     user_id: { type: 'integer', comment: '关联用户' },
-    tags: { type: 'string', length: '32', comment: '标签' },
+    tag_id: { type: 'integer', comment: '关联标签id' },
     content: { type: 'text', comment: '内容' },
     date: { type: 'date', comment: '日期' },
     start_at: { type: 'datetime', comment: '开始时间' },

@@ -1,6 +1,7 @@
-import { Length } from 'class-validator'
+import { Length, IsNumber } from 'class-validator'
 
 export class Create {
+  @IsNumber()
   user_id!: number
   @Length(1, 16)
   tag!: string
@@ -8,6 +9,7 @@ export class Create {
 }
 
 export class Update {
+  @IsNumber()
   id: number
   description?: string
 }
