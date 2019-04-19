@@ -17,7 +17,7 @@ describe('test tag!!', () => {
 
   test('test no paginate search!!', async done => {
     const response = await request(app.callback())
-      .get('/v1/tags?user_id=1&id=1&tag=w')
+      .get('/v1/tags?user_id=1&id=1&tag=w&sort=-id')
       .set('authorization', 'Bearer ' + token)
     expect(response.status).toBe(200)
     done()
@@ -25,7 +25,7 @@ describe('test tag!!', () => {
 
   test('test paginate search!!', async done => {
     const response = await request(app.callback())
-      .get('/v1/tags?pagination=true&page=1&size=1')
+      .get('/v1/tags?pagination=true&page=1&size=1&sort=id')
       .set('authorization', 'Bearer ' + token)
     expect(response.status).toBe(200)
     done()

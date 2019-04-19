@@ -7,6 +7,7 @@ export class TagService extends BaseService {
     if (params.id) sql.where('id', params.id)
     if (params.user_id) sql.where('user_id', params.user_id)
     if (params.tag) sql.where('tag', 'like', `%${params.tag}%`)
+    if (params.sort) sql.orderBy(this.getSort(params.sort))
     if (params.pagination) {
       const countSql = sql.clone()
       const { count } = await countSql.count('* as count').first()

@@ -12,6 +12,9 @@ export class Query {
   @IsString()
   tag!: string
   @ValidateIf(o => o.otherProperty === 'value')
+  @IsString()
+  sort!: string
+  @ValidateIf(o => o.otherProperty === 'value')
   @IsBooleanString()
   pagination!: boolean
   @ValidateIf(o => o.otherProperty === 'value')
