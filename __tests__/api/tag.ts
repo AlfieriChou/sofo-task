@@ -15,6 +15,34 @@ describe('test tag!!', () => {
     done()
   })
 
+  test('test no paginate search!!', async done => {
+    const response = await request(app.callback())
+      .get('/v1/tags?user_id=1&id=1&tag=w')
+      .set('authorization', 'Bearer ' + token)
+    expect(response.status).toBe(200)
+    done()
+  })
+
+  test('test paginate search!!', async done => {
+    const response = await request(app.callback())
+      .get('/v1/tags?pagination=true&page=1&size=1')
+      .set('authorization', 'Bearer ' + token)
+    expect(response.status).toBe(200)
+    done()
+  })
+
+  test('test create tag and tag exist!!', async done => {
+    const response = await request(app.callback())
+      .post('/v1/tags')
+      .set('authorization', 'Bearer ' + token)
+      .send({
+        user_id: 1,
+        tag: 'work'
+      })
+    expect(response.status).toBe(500)
+    done()
+  })
+
   test('test create tag!!', async done => {
     const response = await request(app.callback())
       .post('/v1/tags')
