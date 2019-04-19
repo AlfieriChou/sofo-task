@@ -18,6 +18,15 @@ export class BaseService {
     throw new ApiErrorException(message, code)
   }
 
+  public paginate(count: number, page: number, size: number) {
+    return {
+      page: +page,
+      size: +size,
+      row_count: count,
+      page_count: Math.ceil(count / size)
+    }
+  }
+
   public getSort(option: string) {
     let result: OrderBy[] = []
     let options = option.split(',')

@@ -1,15 +1,15 @@
 import { prefix, route, Method } from '../decorator/router'
 import { Context } from 'koa'
 import { BaseController } from '../common/baseController'
-import { Create, Update } from '../model/tag'
+import { Create, Update, Query } from '../model/tag'
 import { TagService } from '../service/tag'
 
 @prefix('/v1')
 export class TagController extends BaseController {
   @route('/tags', Method.GET)
   async index(ctx: Context) {
-    const params = ctx.query
-    ctx.body = params
+    const params = super.deserialize(Query, ctx.query)
+    ctx.body = await new TagService().index(params)
   }
 
   @route('/tags', Method.POST)
