@@ -3,6 +3,11 @@ import { config } from '../../config'
 import { ApiErrorException, NotFoundException } from './exception'
 import { knex } from '../../database'
 
+interface OrderBy {
+  column: string
+  order: string
+}
+
 export class BaseService {
   config: Config
   constructor() {
@@ -11,6 +16,19 @@ export class BaseService {
 
   public error(code: number, message: string): void {
     throw new ApiErrorException(message, code)
+  }
+
+  public getSort(option: string) {
+    let result: OrderBy[] = []
+    let options = option.split(',')
+    options.map(item => {
+      let orderObj = {}
+      orderObj['column'] =
+        item.startsWith('-') || item.startsWith('+') ? item.substring(1) : item
+      orderObj['order'] = item.startsWith('-') ? 'desc' : 'asc'
+      result.push(<OrderBy>orderObj)
+    })
+    return result
   }
 
   async exists(table: string, condition: Object) {
