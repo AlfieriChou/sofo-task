@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.3.0](https://github.com/AlfieriChou/sofo-task/compare/v1.2.0...v1.3.0) (2019-04-20)
+
+### Features
+
+- sort BaseService ([1b08151](https://github.com/AlfieriChou/sofo-task/commit/1b08151))
+- tag search ([ada954f](https://github.com/AlfieriChou/sofo-task/commit/ada954f))
+- tag sort search ([07c9ab8](https://github.com/AlfieriChou/sofo-task/commit/07c9ab8))
+- week report ([a1775bf](https://github.com/AlfieriChou/sofo-task/commit/a1775bf))
+
+### Performance Improvements
+
+- update deps ([2d3e154](https://github.com/AlfieriChou/sofo-task/commit/2d3e154))
+
 # [1.2.0](https://github.com/AlfieriChou/sofo-task/compare/v1.1.0...v1.2.0) (2019-04-18)
 
 ### Bug Fixes
