@@ -1,5 +1,37 @@
-import { IsString, IsDateString, ValidateIf } from 'class-validator'
+import {
+  IsString,
+  IsDateString,
+  ValidateIf,
+  IsBooleanString
+} from 'class-validator'
 import { Transform } from 'class-transformer'
+
+export class Query {
+  @ValidateIf(o => o.otherProperty === 'value')
+  @Transform(value => Number(value))
+  id!: number
+  @ValidateIf(o => o.otherProperty === 'value')
+  @IsString()
+  tag!: string
+  @ValidateIf(o => o.otherProperty === 'value')
+  @IsDateString()
+  start_at_start!: Date
+  @ValidateIf(o => o.otherProperty === 'value')
+  @IsDateString()
+  start_at_end!: Date
+  @ValidateIf(o => o.otherProperty === 'value')
+  @IsString()
+  sort!: string
+  @ValidateIf(o => o.otherProperty === 'value')
+  @IsBooleanString()
+  pagination!: boolean
+  @ValidateIf(o => o.otherProperty === 'value')
+  @Transform(value => Number(value))
+  page!: number
+  @ValidateIf(o => o.otherProperty === 'value')
+  @Transform(value => Number(value))
+  size!: number
+}
 
 export class Create {
   @Transform(value => Number(value))

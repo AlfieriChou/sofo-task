@@ -1,14 +1,14 @@
 import { prefix, route, Method } from '../decorator/router'
 import { Context } from 'koa'
 import { BaseController } from '../common/baseController'
-import { Create, Update } from '../model/task'
+import { Create, Update, Query } from '../model/task'
 import { TaskService } from '../service/task'
 
 @prefix('/v1')
 export class TaskController extends BaseController {
   @route('/tasks', Method.GET)
   async index(ctx: Context) {
-    const params = ctx.query
+    const params = super.deserialize(Query, ctx.query)
     ctx.body = await new TaskService().index(params)
   }
 
