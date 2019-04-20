@@ -9,7 +9,7 @@ export class TaskController extends BaseController {
   @route('/tasks', Method.GET)
   async index(ctx: Context) {
     const params = ctx.query
-    ctx.body = params
+    ctx.body = await new TaskService().index(params)
   }
 
   @route('/tasks', Method.POST)

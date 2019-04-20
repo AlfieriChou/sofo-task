@@ -16,14 +16,10 @@ type Route = (
 ) => (target: any, _key?: string | symbol, descriptor?: any) => void
 
 export enum Method {
-  HEAD,
-  OPTIONS,
   GET,
   PUT,
-  PATCH,
   POST,
-  DELETE,
-  ALL
+  DELETE
 }
 
 export const prefix: Prefix = (path: string = '') => {
@@ -61,17 +57,8 @@ const routeUpdate = (
     target.router = new Router()
   }
   switch (method) {
-    case Method.HEAD:
-      target.router.head(path, ...middleware, descriptor.value)
-      break
-    case Method.OPTIONS:
-      target.router.options(path, ...middleware, descriptor.value)
-      break
     case Method.GET:
       target.router.get(path, ...middleware, descriptor.value)
-      break
-    case Method.PATCH:
-      target.router.patch(path, ...middleware, descriptor.value)
       break
     case Method.PUT:
       target.router.put(path, ...middleware, descriptor.value)
@@ -81,9 +68,6 @@ const routeUpdate = (
       break
     case Method.DELETE:
       target.router.del(path, ...middleware, descriptor.value)
-      break
-    case Method.ALL:
-      target.router.all(path, ...middleware, descriptor.value)
       break
     default:
       throw new Error('@route decorator "method" is not valid')

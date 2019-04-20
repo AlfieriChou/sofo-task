@@ -5,6 +5,6 @@ import { Context } from 'koa'
 export class HelloController {
   @route('/', Method.GET)
   async index(ctx: Context) {
-    ctx.body = 'Hello World'
+    ctx.body = 'Hello sofo task!!!'
   }
 }
