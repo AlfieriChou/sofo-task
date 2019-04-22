@@ -10,6 +10,8 @@
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "tsc": "tsc -p tsconfig.json",
     "test": "jest --coverage --detectOpenHandles --forceExit",
+    "unit": "jest -c jest.config.unit.js --coverage --detectOpenHandles --forceExit",
+    "integration": "jest -c jest.config.integration.js --coverage --detectOpenHandles --forceExit",
     "commit": "git-cz",
     "release": "standard-version"
   },
