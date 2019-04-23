@@ -2,7 +2,6 @@ import * as jwt from 'jsonwebtoken'
 import { promisify } from 'util'
 import { JWTPath } from './JWTpath'
 import { Context } from 'koa'
-import { ApiErrorException } from '../app/common/exception'
 
 const secret: string = 'sofo'
 const verify = promisify(jwt.verify)
@@ -16,7 +15,7 @@ export const JWTMiddleware = () => {
 
     try {
       const token = ctx.header.authorization
-      if (!token) throw new ApiErrorException('token不存在', 400)
+      if (!token) ctx.throw('token不存在', 400)
       let payload
       try {
         payload = await verify(token.split(' ')[1], secret)
@@ -41,10 +40,11 @@ export const JWTMiddleware = () => {
           err
         }
       } else {
-        ctx.status = 500
+        ctx.status = err.statusCode || err.status || 500
         ctx.body = {
-          code: 500,
-          err
+          code: ctx.status,
+          message: err.message,
+          stack: err.stack
         }
       }
     }
