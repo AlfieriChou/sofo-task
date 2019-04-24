@@ -54,6 +54,26 @@ export class UserController extends BaseController {
   }
 
   @route('/register', Method.POST)
+  @swaggerInfo({
+    method: 'post',
+    path: '/v1/register',
+    tags: ['user'],
+    summary: '用户注册',
+    requestBody: {
+      body: {
+        username: { type: 'string', comment: '用户名' },
+        password: { type: 'string', comment: '密码' },
+        age: { type: 'number', comment: '年龄' },
+        description: { type: 'string', comment: '描述' }
+      },
+      required: ['username', 'password']
+    },
+    responses: {
+      '200': {
+        description: '用户注册'
+      }
+    }
+  })
   async register(ctx: Context) {
     const params = super.deserialize(Register, ctx.request.body)
     await super.validate(Register, ctx.request.body)
@@ -61,12 +81,46 @@ export class UserController extends BaseController {
   }
 
   @route('/users/:id', Method.GET)
+  @swaggerInfo({
+    method: 'get',
+    path: '/v1/users/{id}',
+    tags: ['user'],
+    summary: '获取用户详情',
+    query: {
+      id: { type: 'number', comment: '用户id' }
+    },
+    responses: {
+      '200': {
+        description: '获取用户详情'
+      }
+    }
+  })
   async show(ctx: Context) {
     const params = ctx.params
     ctx.body = await new UserService().show(params)
   }
 
   @route('/users/:id', Method.PUT)
+  @swaggerInfo({
+    method: 'put',
+    path: '/v1/users/{id}',
+    tags: ['user'],
+    summary: '更新用户信息',
+    query: {
+      id: { type: 'number', comment: '用户id' }
+    },
+    requestBody: {
+      body: {
+        age: { type: 'number', comment: '年龄' },
+        description: { type: 'string', comment: '描述' }
+      }
+    },
+    responses: {
+      '200': {
+        description: '更新用户信息'
+      }
+    }
+  })
   async update(ctx: Context) {
     const params = super.deserialize(
       Update,
@@ -77,6 +131,20 @@ export class UserController extends BaseController {
   }
 
   @route('/users/:id', Method.DELETE)
+  @swaggerInfo({
+    method: 'delete',
+    path: '/v1/users/{id}',
+    tags: ['user'],
+    summary: '删除用户信息',
+    query: {
+      id: { type: 'number', comment: '用户id' }
+    },
+    responses: {
+      '200': {
+        description: '删除用户信息'
+      }
+    }
+  })
   async destroy(ctx: Context) {
     const params = ctx.params
     ctx.body = await new UserService().destroy(params)

@@ -118,7 +118,7 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
       content['requestBody'] = {
         required: true,
         content: {
-          'application/vnd.api+json': {
+          'application/json': {
             schema: schema
           }
         }
