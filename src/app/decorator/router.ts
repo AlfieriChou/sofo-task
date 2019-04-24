@@ -2,6 +2,7 @@ import * as Router from 'koa-router'
 import * as dir from 'dir_filenames'
 import { resolve } from 'path'
 import { Middleware } from '../../type'
+import { mergeDeep } from '../common'
 
 const router = new Router()
 
@@ -20,6 +21,115 @@ export enum Method {
   PUT,
   POST,
   DELETE
+}
+
+let swagger = {
+  openapi: '3.0.0',
+  info: {
+    title: 'SOFO API document',
+    version: 'v3',
+    description: 'sofo api document',
+    contact: {
+      name: 'AlfieriChou',
+      email: 'alfierichou@gmail.com',
+      url: 'https://github.com/AlfieriChou'
+    }
+  },
+  paths: {},
+  components: {}
+}
+
+interface Property {
+  [s: string]: Field
+}
+
+interface Field {
+  type: string
+  comment: string
+}
+
+interface SwaggerInfo {
+  method: string
+  path: string
+  tags: string[]
+  summary?: string
+  params?: Property
+  query?: Property
+  requestBody?: RequestBody
+  responses: Object
+}
+
+interface RequestBody {
+  body: Property
+  required?: string[]
+}
+
+let methods: any[] = []
+
+export const swaggerInfo = (sinfo: SwaggerInfo) => {
+  return (_target: any, _key?: string | symbol, _descriptor?: any): void => {
+    const content = {
+      tags: sinfo.tags,
+      summary: sinfo.summary || '',
+      responses: sinfo.responses
+    }
+    if (sinfo.query) {
+      let parameters: Object[] = []
+      for (let i in sinfo.query) {
+        parameters.push({
+          name: i,
+          in: 'query',
+          description: sinfo.query[i].comment,
+          schema: {
+            type: sinfo.query[i].type
+          },
+          required: false
+        })
+      }
+      content['parameters'] = parameters
+    }
+    if (sinfo.params) {
+      let parameters: Object[] = []
+      for (let i in sinfo.params) {
+        parameters.push({
+          name: i,
+          in: 'path',
+          description: sinfo.params[i].comment,
+          schema: {
+            type: sinfo.params[i].type
+          },
+          required: true
+        })
+      }
+      content['parameters'] = parameters
+    }
+    if (sinfo.requestBody) {
+      const schema = {
+        type: 'object',
+        properties: {},
+        required: sinfo.requestBody.required
+      }
+      for (let i in sinfo.requestBody.body) {
+        schema.properties[i] = {
+          type: sinfo.requestBody.body[i].type,
+          description: sinfo.requestBody.body[i].comment
+        }
+      }
+      content['requestBody'] = {
+        required: true,
+        content: {
+          'application/vnd.api+json': {
+            schema: schema
+          }
+        }
+      }
+    }
+    let swaggerMethod = {}
+    swaggerMethod[sinfo.method] = content
+    let swaggerPath = {}
+    swaggerPath[sinfo.path] = swaggerMethod
+    methods.push(swaggerPath)
+  }
 }
 
 export const prefix: Prefix = (path: string = '') => {
@@ -78,6 +188,17 @@ export const loadControllers = () => {
   const files: string[] = dir(resolve(__dirname, '../controller'))
   files.map(file => {
     require(file)
+  })
+  let mergeMethod = {}
+  for (let i = 0; i < methods.length; ++i) {
+    mergeMethod = mergeDeep(mergeMethod, methods[i])
+  }
+  swagger.paths = mergeMethod
+  router.get('/v1/swagger.json', async ctx => {
+    ctx.body = swagger
+  })
+  router.get('/v1/apidoc', async ctx => {
+    await ctx.render('index.html', { url: '/v1/swagger.json' })
   })
   return router
 }

@@ -5,6 +5,8 @@ import * as bodyParser from 'koa-bodyparser'
 import * as session from 'koa-generic-session'
 import * as redisStrore from 'koa-redis'
 import * as jwt from 'koa-jwt'
+import * as path from 'path'
+import * as views from 'koa-views'
 import { config } from './config'
 import { loadControllers } from './app/decorator/router'
 import { Middleware } from './type'
@@ -62,8 +64,11 @@ app.use(
   jwt({
     secret: 'sofo'
   }).unless({
-    path: [/\/register/, /\/login/, /\//]
+    path: [/\/register/, /\/login/, /\//, /\/swagger.json/, /\/apidoc/]
   })
+)
+app.use(
+  views(path.resolve(__dirname, './views'), { map: { html: 'nunjucks' } })
 )
 if (process.env.NODE_ENV === 'development' || 'test') {
   app.use(logger())

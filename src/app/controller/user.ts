@@ -1,4 +1,4 @@
-import { prefix, route, Method } from '../decorator/router'
+import { prefix, route, Method, swaggerInfo } from '../decorator/router'
 import { Context } from 'koa'
 import { BaseController } from '../common/baseController'
 import { Register, Login, Update } from '../model/user'
@@ -7,6 +7,24 @@ import { UserService } from '../service/user'
 @prefix('/v1')
 export class UserController extends BaseController {
   @route('/login', Method.POST)
+  @swaggerInfo({
+    method: 'post',
+    path: '/v1/login',
+    tags: ['user'],
+    summary: '用户登录',
+    requestBody: {
+      body: {
+        username: { type: 'string', comment: '用户名' },
+        password: { type: 'string', comment: '密码' }
+      },
+      required: ['username', 'password']
+    },
+    responses: {
+      '200': {
+        description: '用户登录'
+      }
+    }
+  })
   async login(ctx: Context) {
     const params = super.deserialize(Login, ctx.request.body)
     await super.validate(Login, ctx.request.body)
@@ -18,6 +36,17 @@ export class UserController extends BaseController {
   }
 
   @route('/logout', Method.DELETE)
+  @swaggerInfo({
+    method: 'delete',
+    path: '/v1/logout',
+    tags: ['user'],
+    summary: '用户注销',
+    responses: {
+      '200': {
+        description: '用户注销'
+      }
+    }
+  })
   async logout(ctx: Context) {
     if (ctx.session) {
       ctx.session['user'] = null
