@@ -157,18 +157,16 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
       }
     }
     if (sinfo.response) {
+      let resContent
       if (sinfo.response.schema && sinfo.response.res_type === 'object') {
-        const resContent = {
+        resContent = {
           'application/json': {
             schema: swagger.components.schemas[sinfo.response.schema]
           }
         }
-        content.responses[sinfo.response.status] = {
-          description: sinfo.response.description || '',
-          content: resContent
-        }
-      } else if (sinfo.response.schema && sinfo.response.res_type === 'array') {
-        const resContent = {
+      }
+      if (sinfo.response.schema && sinfo.response.res_type === 'array') {
+        resContent = {
           'application/json': {
             schema: {
               type: 'array',
@@ -176,12 +174,9 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
             }
           }
         }
-        content.responses[sinfo.response.status] = {
-          description: sinfo.response.description || '',
-          content: resContent
-        }
-      } else if (sinfo.response.res_type === 'number') {
-        const resContent = {
+      }
+      if (sinfo.response.res_type === 'number') {
+        resContent = {
           'application/json': {
             schema: {
               type: 'object',
@@ -191,13 +186,18 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
             }
           }
         }
-        content.responses[sinfo.response.status] = {
-          description: sinfo.response.description || '',
-          content: resContent
-        }
-      } else {
-        content.responses[sinfo.response.status] = {
-          description: sinfo.response.description || ''
+      }
+      content.responses[sinfo.response.status] = {
+        description: sinfo.response.description || '',
+        content: resContent || {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                result: { type: 'string', description: '返回标识' }
+              }
+            }
+          }
         }
       }
     }
