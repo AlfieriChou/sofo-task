@@ -25,7 +25,8 @@ export class TaskController extends BaseController {
       status: 200,
       description: '获取task列表',
       res_type: 'array',
-      schema: 'Task'
+      schema: 'Task',
+      paginate: true
     }
   })
   async index(ctx: Context) {

@@ -89,6 +89,7 @@ interface Response {
   description?: string
   res_type?: string
   schema?: string
+  paginate?: boolean
 }
 
 let methods: any[] = []
@@ -161,11 +162,48 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
         }
       }
       if (sinfo.response.schema && sinfo.response.res_type === 'array') {
-        resContent = {
-          'application/json': {
-            schema: {
-              type: 'array',
-              items: swagger.components.schemas[sinfo.response.schema]
+        if (sinfo.response.paginate) {
+          resContent = {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  result: {
+                    type: 'array',
+                    items: swagger.components.schemas[sinfo.response.schema]
+                  },
+                  paginate: {
+                    type: 'object',
+                    properties: {
+                      page: {
+                        type: 'number',
+                        description: '页码'
+                      },
+                      size: {
+                        type: 'number',
+                        description: '条数'
+                      },
+                      row_count: {
+                        type: 'number',
+                        description: '总数'
+                      },
+                      page_count: {
+                        type: 'number',
+                        description: '页码总数'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        } else {
+          resContent = {
+            'application/json': {
+              schema: {
+                type: 'array',
+                items: swagger.components.schemas[sinfo.response.schema]
+              }
             }
           }
         }

@@ -25,7 +25,8 @@ export class TagController extends BaseController {
       status: 200,
       description: '获取标签列表',
       res_type: 'array',
-      schema: 'Tag'
+      schema: 'Tag',
+      paginate: true
     }
   })
   async index(ctx: Context) {
