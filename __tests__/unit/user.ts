@@ -4,7 +4,7 @@ import { app } from '../../src/app'
 describe('test user!!', () => {
   let token
   let id
-  test('test user register!!', async done => {
+  beforeAll(async done => {
     const response = await request(app.callback())
       .post('/v1/register')
       .send({
@@ -14,19 +14,13 @@ describe('test user!!', () => {
         description: 'haha'
       })
     id = response.body.id
-    expect(response.status).toBe(200)
-    done()
-  })
-
-  test('test user login!!', async done => {
-    const response = await request(app.callback())
+    const responseLogin = await request(app.callback())
       .post('/v1/login')
       .send({
         username: 'ddddd',
         password: 'ddddddd'
       })
-    token = response.body.token
-    expect(response.status).toBe(200)
+    token = responseLogin.body.token
     done()
   })
 

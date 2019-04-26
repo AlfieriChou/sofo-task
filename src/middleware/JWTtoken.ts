@@ -16,7 +16,7 @@ export const JWTMiddleware = () => {
     try {
       const token = ctx.header.authorization
       if (!token) ctx.throw(400, 'token不存在')
-      if (!ctx.session) ctx.throw(401, '请重新登录')
+      // if (!ctx.session) ctx.throw(401, '请重新登录')
       let payload
       try {
         payload = await verify(token.split(' ')[1], secret)
