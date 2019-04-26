@@ -14,8 +14,8 @@ export class UserController extends BaseController {
     summary: '用户登录',
     requestBody: {
       body: {
-        username: { type: 'string', comment: '用户名' },
-        password: { type: 'string', comment: '密码' }
+        username: { type: 'string', description: '用户名' },
+        password: { type: 'string', description: '密码' }
       },
       required: ['username', 'password']
     },
@@ -61,10 +61,10 @@ export class UserController extends BaseController {
     summary: '用户注册',
     requestBody: {
       body: {
-        username: { type: 'string', comment: '用户名' },
-        password: { type: 'string', comment: '密码' },
-        age: { type: 'number', comment: '年龄' },
-        description: { type: 'string', comment: '描述' }
+        username: { type: 'string', description: '用户名' },
+        password: { type: 'string', description: '密码' },
+        age: { type: 'number', description: '年龄' },
+        description: { type: 'string', description: '描述' }
       },
       required: ['username', 'password']
     },
@@ -88,7 +88,7 @@ export class UserController extends BaseController {
     tags: ['user'],
     summary: '获取用户详情',
     query: {
-      id: { type: 'number', comment: '用户id' }
+      id: { type: 'number', description: '用户id' }
     },
     response: {
       status: 200,
@@ -109,12 +109,12 @@ export class UserController extends BaseController {
     tags: ['user'],
     summary: '更新用户信息',
     query: {
-      id: { type: 'number', comment: '用户id' }
+      id: { type: 'number', description: '用户id' }
     },
     requestBody: {
       body: {
-        age: { type: 'number', comment: '年龄' },
-        description: { type: 'string', comment: '描述' }
+        age: { type: 'number', description: '年龄' },
+        description: { type: 'string', description: '描述' }
       }
     },
     response: {
@@ -139,7 +139,7 @@ export class UserController extends BaseController {
     tags: ['user'],
     summary: '删除用户信息',
     query: {
-      id: { type: 'number', comment: '用户id' }
+      id: { type: 'number', description: '用户id' }
     },
     response: {
       status: 200,

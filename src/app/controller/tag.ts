@@ -13,13 +13,13 @@ export class TagController extends BaseController {
     tags: ['tag'],
     summary: '获取标签列表',
     query: {
-      id: { type: 'number', comment: '标签id' },
-      user_id: { type: 'number', comment: '用户id' },
-      tag: { type: 'string', comment: '标签' },
-      sort: { type: 'string', comment: '排序' },
-      pagination: { type: 'boolean', comment: '是否分页' },
-      page: { type: 'number', comment: '页码' },
-      limit: { type: 'number', comment: '条数' }
+      id: { type: 'number', description: '标签id' },
+      user_id: { type: 'number', description: '用户id' },
+      tag: { type: 'string', description: '标签' },
+      sort: { type: 'string', description: '排序' },
+      pagination: { type: 'boolean', description: '是否分页' },
+      page: { type: 'number', description: '页码' },
+      limit: { type: 'number', description: '条数' }
     },
     response: {
       status: 200,
@@ -41,9 +41,9 @@ export class TagController extends BaseController {
     summary: '创建标签',
     requestBody: {
       body: {
-        user_id: { type: 'number', comment: '用户id' },
-        tag: { type: 'string', comment: '标签' },
-        description: { type: 'string', comment: '描述' }
+        user_id: { type: 'number', description: '用户id' },
+        tag: { type: 'string', description: '标签' },
+        description: { type: 'string', description: '描述' }
       },
       required: ['user_id', 'tag']
     },
@@ -67,7 +67,7 @@ export class TagController extends BaseController {
     tags: ['tag'],
     summary: '获取标签详情',
     query: {
-      id: { type: 'number', comment: '标签id' }
+      id: { type: 'number', description: '标签id' }
     },
     response: {
       status: 200,
@@ -88,11 +88,11 @@ export class TagController extends BaseController {
     tags: ['tag'],
     summary: '更新标签详情',
     query: {
-      id: { type: 'number', comment: '标签id' }
+      id: { type: 'number', description: '标签id' }
     },
     requestBody: {
       body: {
-        description: { type: 'string', comment: '描述' }
+        description: { type: 'string', description: '描述' }
       }
     },
     response: {
@@ -117,7 +117,7 @@ export class TagController extends BaseController {
     tags: ['tag'],
     summary: '删除标签详情',
     query: {
-      id: { type: 'number', comment: '标签id' }
+      id: { type: 'number', description: '标签id' }
     },
     response: {
       status: 200,

@@ -65,12 +65,7 @@ export const property = (field: FieldProperty) => {
 }
 
 interface Property {
-  [s: string]: Field
-}
-
-interface Field {
-  type: string
-  comment: string
+  [s: string]: FieldProperty
 }
 
 interface SwaggerInfo {
@@ -111,7 +106,7 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
         parameters.push({
           name: i,
           in: 'query',
-          description: sinfo.query[i].comment,
+          description: sinfo.query[i].description,
           schema: {
             type: sinfo.query[i].type
           },
@@ -126,7 +121,7 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
         parameters.push({
           name: i,
           in: 'path',
-          description: sinfo.params[i].comment,
+          description: sinfo.params[i].description,
           schema: {
             type: sinfo.params[i].type
           },
@@ -144,7 +139,7 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
       for (let i in sinfo.requestBody.body) {
         schema.properties[i] = {
           type: sinfo.requestBody.body[i].type,
-          description: sinfo.requestBody.body[i].comment
+          description: sinfo.requestBody.body[i].description
         }
       }
       content['requestBody'] = {
