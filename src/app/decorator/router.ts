@@ -36,7 +36,32 @@ let swagger = {
     }
   },
   paths: {},
-  components: {}
+  components: {
+    schemas: {}
+  }
+}
+
+interface FieldProperty {
+  type: string
+  format?: string
+  description: string
+}
+
+export const property = (field: FieldProperty) => {
+  return (target: any, key: string, _descriptor?: any): void => {
+    const model = {
+      type: 'object',
+      properties: {}
+    }
+    const components = {}
+    model.properties[key] = field
+    const modelName = target.constructor.name
+    components[modelName] = model
+    swagger.components.schemas = mergeDeep(
+      swagger.components.schemas,
+      components
+    )
+  }
 }
 
 interface Property {

@@ -1,5 +1,6 @@
 import { Length, ValidateIf, IsNumber, IsString } from 'class-validator'
 import { Transform } from 'class-transformer'
+import { property } from '../decorator/router'
 
 export class Register {
   @Length(3, 32)
@@ -22,15 +23,54 @@ export class Login {
 }
 
 export class User {
-  id?: number
-  username?: string
-  password?: string
-  age?: number
-  description?: string
-  user_type?: string
-  created_at?: Date
-  updated_at?: Date
-  deleted_at?: Date
+  @property({
+    type: 'number',
+    description: 'id'
+  })
+  id!: number
+  @property({
+    type: 'string',
+    description: 'user name'
+  })
+  username!: string
+  @property({
+    type: 'string',
+    description: 'password'
+  })
+  password!: string
+  @property({
+    type: 'number',
+    description: 'age'
+  })
+  age!: number
+  @property({
+    type: 'string',
+    description: 'description'
+  })
+  description!: string
+  @property({
+    type: 'string',
+    description: 'user type'
+  })
+  user_type!: string
+  @property({
+    type: 'string',
+    format: 'date-time',
+    description: '创建时间'
+  })
+  created_at!: Date
+  @property({
+    type: 'string',
+    format: 'date-time',
+    description: '更新时间'
+  })
+  updated_at!: Date
+  @property({
+    type: 'string',
+    format: 'date-time',
+    description: '删除时间'
+  })
+  deleted_at!: Date
 }
 
 export class Update {
