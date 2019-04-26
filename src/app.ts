@@ -56,9 +56,9 @@ const cors: Middleware = async (ctx, next) => {
   }
 }
 
-app.use(JWTMiddleware())
 app.keys = ['sofo', 'task']
 app.use(redisSession)
+app.use(JWTMiddleware())
 app.use(cors)
 app.use(
   jwt({
