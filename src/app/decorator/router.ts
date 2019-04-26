@@ -81,12 +81,19 @@ interface SwaggerInfo {
   params?: Property
   query?: Property
   requestBody?: RequestBody
-  responses: Object
+  response?: Response
 }
 
 interface RequestBody {
   body: Property
   required?: string[]
+}
+
+interface Response {
+  status: number
+  description?: string
+  type?: string
+  model?: string
 }
 
 let methods: any[] = []
@@ -96,7 +103,7 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
     const content = {
       tags: sinfo.tags,
       summary: sinfo.summary || '',
-      responses: sinfo.responses
+      responses: {}
     }
     if (sinfo.query) {
       let parameters: Object[] = []
@@ -146,6 +153,23 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
           'application/json': {
             schema: schema
           }
+        }
+      }
+    }
+    if (sinfo.response) {
+      if (sinfo.response.model && sinfo.response.type === 'object') {
+        const resContent = {
+          'application/json': {
+            schema: swagger.components.schemas[sinfo.response.model]
+          }
+        }
+        content.responses[sinfo.response.status] = {
+          description: sinfo.response.description || '',
+          content: resContent
+        }
+      } else {
+        content.responses[sinfo.response.status] = {
+          description: sinfo.response.description || ''
         }
       }
     }

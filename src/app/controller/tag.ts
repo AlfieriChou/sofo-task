@@ -21,10 +21,9 @@ export class TagController extends BaseController {
       page: { type: 'number', comment: '页码' },
       limit: { type: 'number', comment: '条数' }
     },
-    responses: {
-      '200': {
-        description: '获取标签列表'
-      }
+    response: {
+      status: 200,
+      description: '获取标签列表'
     }
   })
   async index(ctx: Context) {
@@ -46,10 +45,11 @@ export class TagController extends BaseController {
       },
       required: ['user_id', 'tag']
     },
-    responses: {
-      '200': {
-        description: '创建标签'
-      }
+    response: {
+      status: 200,
+      description: '创建标签',
+      type: 'object',
+      model: 'Tag'
     }
   })
   async create(ctx: Context) {
@@ -67,10 +67,11 @@ export class TagController extends BaseController {
     query: {
       id: { type: 'number', comment: '标签id' }
     },
-    responses: {
-      '200': {
-        description: '获取标签详情'
-      }
+    response: {
+      status: 200,
+      description: '获取标签详情',
+      type: 'object',
+      model: 'Tag'
     }
   })
   async show(ctx: Context) {
@@ -92,10 +93,9 @@ export class TagController extends BaseController {
         description: { type: 'string', comment: '描述' }
       }
     },
-    responses: {
-      '200': {
-        description: '更新标签详情'
-      }
+    response: {
+      status: 200,
+      description: '更新标签详情'
     }
   })
   async update(ctx: Context) {
@@ -116,10 +116,9 @@ export class TagController extends BaseController {
     query: {
       id: { type: 'number', comment: '标签id' }
     },
-    responses: {
-      '200': {
-        description: '删除标签详情'
-      }
+    response: {
+      status: 200,
+      description: '删除标签详情'
     }
   })
   async destroy(ctx: Context) {

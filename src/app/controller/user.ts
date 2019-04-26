@@ -19,10 +19,11 @@ export class UserController extends BaseController {
       },
       required: ['username', 'password']
     },
-    responses: {
-      '200': {
-        description: '用户登录'
-      }
+    response: {
+      status: 200,
+      description: '登录',
+      type: 'object',
+      model: 'User'
     }
   })
   async login(ctx: Context) {
@@ -41,10 +42,9 @@ export class UserController extends BaseController {
     path: '/v1/logout',
     tags: ['user'],
     summary: '用户注销',
-    responses: {
-      '200': {
-        description: '用户注销'
-      }
+    response: {
+      status: 200,
+      description: '用户注销'
     }
   })
   async logout(ctx: Context) {
@@ -68,10 +68,11 @@ export class UserController extends BaseController {
       },
       required: ['username', 'password']
     },
-    responses: {
-      '200': {
-        description: '用户注册'
-      }
+    response: {
+      status: 200,
+      description: '用户注册',
+      type: 'object',
+      model: 'User'
     }
   })
   async register(ctx: Context) {
@@ -89,10 +90,11 @@ export class UserController extends BaseController {
     query: {
       id: { type: 'number', comment: '用户id' }
     },
-    responses: {
-      '200': {
-        description: '获取用户详情'
-      }
+    response: {
+      status: 200,
+      description: '获取用户详情',
+      type: 'object',
+      model: 'User'
     }
   })
   async show(ctx: Context) {
@@ -115,10 +117,9 @@ export class UserController extends BaseController {
         description: { type: 'string', comment: '描述' }
       }
     },
-    responses: {
-      '200': {
-        description: '更新用户信息'
-      }
+    response: {
+      status: 200,
+      description: '更新用户信息'
     }
   })
   async update(ctx: Context) {
@@ -139,10 +140,9 @@ export class UserController extends BaseController {
     query: {
       id: { type: 'number', comment: '用户id' }
     },
-    responses: {
-      '200': {
-        description: '删除用户信息'
-      }
+    response: {
+      status: 200,
+      description: '删除用户信息'
     }
   })
   async destroy(ctx: Context) {

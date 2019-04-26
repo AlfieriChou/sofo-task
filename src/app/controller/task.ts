@@ -21,10 +21,9 @@ export class TaskController extends BaseController {
       page: { type: 'number', comment: '页码' },
       limit: { type: 'number', comment: '条数' }
     },
-    responses: {
-      '200': {
-        description: '获取task列表'
-      }
+    response: {
+      status: 200,
+      description: '获取task列表'
     }
   })
   async index(ctx: Context) {
@@ -48,10 +47,11 @@ export class TaskController extends BaseController {
       },
       required: ['user_id', 'tag_id', 'content', 'start_at', 'end_at']
     },
-    responses: {
-      '200': {
-        description: '创建task'
-      }
+    response: {
+      status: 200,
+      description: '创建task',
+      type: 'object',
+      model: 'Task'
     }
   })
   async create(ctx: Context) {
@@ -69,10 +69,11 @@ export class TaskController extends BaseController {
     query: {
       id: { type: 'number', comment: 'task id' }
     },
-    responses: {
-      '200': {
-        description: '获取task详情'
-      }
+    response: {
+      status: 200,
+      description: '获取task详情',
+      type: 'object',
+      model: 'Task'
     }
   })
   async show(ctx: Context) {
@@ -96,10 +97,9 @@ export class TaskController extends BaseController {
         end_at: { type: 'string', comment: '结束时间 date-time' }
       }
     },
-    responses: {
-      '200': {
-        description: '更新task详情'
-      }
+    response: {
+      status: 200,
+      description: '更新task详情'
     }
   })
   async update(ctx: Context) {
@@ -120,10 +120,9 @@ export class TaskController extends BaseController {
     query: {
       id: { type: 'number', comment: 'task id' }
     },
-    responses: {
-      '200': {
-        description: '删除task详情'
-      }
+    response: {
+      status: 200,
+      description: '删除task详情'
     }
   })
   async destroy(ctx: Context) {

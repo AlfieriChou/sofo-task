@@ -9,10 +9,9 @@ export class HelloController {
     path: '/',
     tags: ['index'],
     summary: 'ping api heath',
-    responses: {
-      '200': {
-        description: 'ping api heath'
-      }
+    response: {
+      status: 200,
+      description: 'ping api heath'
     }
   })
   async index(ctx: Context) {
