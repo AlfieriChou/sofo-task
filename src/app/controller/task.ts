@@ -23,7 +23,9 @@ export class TaskController extends BaseController {
     },
     response: {
       status: 200,
-      description: '获取task列表'
+      description: '获取task列表',
+      res_type: 'array',
+      schema: 'Task'
     }
   })
   async index(ctx: Context) {
@@ -50,8 +52,8 @@ export class TaskController extends BaseController {
     response: {
       status: 200,
       description: '创建task',
-      type: 'object',
-      model: 'Task'
+      res_type: 'object',
+      schema: 'Task'
     }
   })
   async create(ctx: Context) {
@@ -72,8 +74,8 @@ export class TaskController extends BaseController {
     response: {
       status: 200,
       description: '获取task详情',
-      type: 'object',
-      model: 'Task'
+      res_type: 'object',
+      schema: 'Task'
     }
   })
   async show(ctx: Context) {
@@ -99,7 +101,8 @@ export class TaskController extends BaseController {
     },
     response: {
       status: 200,
-      description: '更新task详情'
+      description: '更新task详情',
+      res_type: 'number'
     }
   })
   async update(ctx: Context) {
@@ -122,7 +125,8 @@ export class TaskController extends BaseController {
     },
     response: {
       status: 200,
-      description: '删除task详情'
+      description: '删除task详情',
+      res_type: 'number'
     }
   })
   async destroy(ctx: Context) {

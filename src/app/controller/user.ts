@@ -22,8 +22,8 @@ export class UserController extends BaseController {
     response: {
       status: 200,
       description: '登录',
-      type: 'object',
-      model: 'User'
+      res_type: 'object',
+      schema: 'User'
     }
   })
   async login(ctx: Context) {
@@ -71,8 +71,8 @@ export class UserController extends BaseController {
     response: {
       status: 200,
       description: '用户注册',
-      type: 'object',
-      model: 'User'
+      res_type: 'object',
+      schema: 'User'
     }
   })
   async register(ctx: Context) {
@@ -93,8 +93,8 @@ export class UserController extends BaseController {
     response: {
       status: 200,
       description: '获取用户详情',
-      type: 'object',
-      model: 'User'
+      res_type: 'object',
+      schema: 'User'
     }
   })
   async show(ctx: Context) {
@@ -119,7 +119,8 @@ export class UserController extends BaseController {
     },
     response: {
       status: 200,
-      description: '更新用户信息'
+      description: '更新用户信息',
+      res_type: 'number'
     }
   })
   async update(ctx: Context) {
@@ -142,7 +143,8 @@ export class UserController extends BaseController {
     },
     response: {
       status: 200,
-      description: '删除用户信息'
+      description: '删除用户信息',
+      res_type: 'number'
     }
   })
   async destroy(ctx: Context) {

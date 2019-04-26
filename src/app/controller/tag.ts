@@ -23,7 +23,9 @@ export class TagController extends BaseController {
     },
     response: {
       status: 200,
-      description: '获取标签列表'
+      description: '获取标签列表',
+      res_type: 'array',
+      schema: 'Tag'
     }
   })
   async index(ctx: Context) {
@@ -48,8 +50,8 @@ export class TagController extends BaseController {
     response: {
       status: 200,
       description: '创建标签',
-      type: 'object',
-      model: 'Tag'
+      res_type: 'object',
+      schema: 'Tag'
     }
   })
   async create(ctx: Context) {
@@ -70,8 +72,8 @@ export class TagController extends BaseController {
     response: {
       status: 200,
       description: '获取标签详情',
-      type: 'object',
-      model: 'Tag'
+      res_type: 'object',
+      schema: 'Tag'
     }
   })
   async show(ctx: Context) {
@@ -95,7 +97,8 @@ export class TagController extends BaseController {
     },
     response: {
       status: 200,
-      description: '更新标签详情'
+      description: '更新标签详情',
+      res_type: 'number'
     }
   })
   async update(ctx: Context) {
@@ -118,7 +121,8 @@ export class TagController extends BaseController {
     },
     response: {
       status: 200,
-      description: '删除标签详情'
+      description: '删除标签详情',
+      res_type: 'number'
     }
   })
   async destroy(ctx: Context) {

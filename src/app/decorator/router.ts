@@ -92,8 +92,8 @@ interface RequestBody {
 interface Response {
   status: number
   description?: string
-  type?: string
-  model?: string
+  res_type?: string
+  schema?: string
 }
 
 let methods: any[] = []
@@ -157,10 +157,38 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
       }
     }
     if (sinfo.response) {
-      if (sinfo.response.model && sinfo.response.type === 'object') {
+      if (sinfo.response.schema && sinfo.response.res_type === 'object') {
         const resContent = {
           'application/json': {
-            schema: swagger.components.schemas[sinfo.response.model]
+            schema: swagger.components.schemas[sinfo.response.schema]
+          }
+        }
+        content.responses[sinfo.response.status] = {
+          description: sinfo.response.description || '',
+          content: resContent
+        }
+      } else if (sinfo.response.schema && sinfo.response.res_type === 'array') {
+        const resContent = {
+          'application/json': {
+            schema: {
+              type: 'array',
+              items: swagger.components.schemas[sinfo.response.schema]
+            }
+          }
+        }
+        content.responses[sinfo.response.status] = {
+          description: sinfo.response.description || '',
+          content: resContent
+        }
+      } else if (sinfo.response.res_type === 'number') {
+        const resContent = {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                result: { type: 'number', description: '返回标识' }
+              }
+            }
           }
         }
         content.responses[sinfo.response.status] = {
