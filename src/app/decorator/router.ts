@@ -195,19 +195,19 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
                     type: 'object',
                     properties: {
                       page: {
-                        type: 'number',
+                        type: swaggerTypes.number,
                         description: '页码'
                       },
                       size: {
-                        type: 'number',
+                        type: swaggerTypes.number,
                         description: '条数'
                       },
                       row_count: {
-                        type: 'number',
+                        type: swaggerTypes.number,
                         description: '总数'
                       },
                       page_count: {
-                        type: 'number',
+                        type: swaggerTypes.number,
                         description: '页码总数'
                       }
                     }
@@ -233,7 +233,7 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
             schema: {
               type: 'object',
               properties: {
-                result: { type: 'number', description: '返回标识' }
+                result: { type: swaggerTypes.number, description: '返回标识' }
               }
             }
           }
@@ -246,7 +246,7 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
             schema: {
               type: 'object',
               properties: {
-                result: { type: 'string', description: '返回标识' }
+                result: { type: swaggerTypes.string, description: '返回标识' }
               }
             }
           }
