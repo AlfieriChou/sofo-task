@@ -1,4 +1,10 @@
-import { prefix, route, Method, swaggerInfo } from '../decorator/router'
+import {
+  prefix,
+  route,
+  Method,
+  swaggerInfo,
+  swaggerTypes
+} from '../decorator/router'
 import { Context } from 'koa'
 import { BaseController } from '../common/baseController'
 import { Create, Update, Query } from '../model/tag'
@@ -13,13 +19,13 @@ export class TagController extends BaseController {
     tags: ['tag'],
     summary: '获取标签列表',
     query: {
-      id: { type: 'number', description: '标签id' },
-      user_id: { type: 'number', description: '用户id' },
-      tag: { type: 'string', description: '标签' },
-      sort: { type: 'string', description: '排序' },
-      pagination: { type: 'boolean', description: '是否分页' },
-      page: { type: 'number', description: '页码' },
-      limit: { type: 'number', description: '条数' }
+      id: { type: swaggerTypes.number, description: '标签id' },
+      user_id: { type: swaggerTypes.number, description: '用户id' },
+      tag: { type: swaggerTypes.string, description: '标签' },
+      sort: { type: swaggerTypes.string, description: '排序' },
+      pagination: { type: swaggerTypes.boolean, description: '是否分页' },
+      page: { type: swaggerTypes.number, description: '页码' },
+      limit: { type: swaggerTypes.number, description: '条数' }
     },
     response: {
       status: 200,
@@ -42,9 +48,9 @@ export class TagController extends BaseController {
     summary: '创建标签',
     requestBody: {
       body: {
-        user_id: { type: 'number', description: '用户id' },
-        tag: { type: 'string', description: '标签' },
-        description: { type: 'string', description: '描述' }
+        user_id: { type: swaggerTypes.number, description: '用户id' },
+        tag: { type: swaggerTypes.string, description: '标签' },
+        description: { type: swaggerTypes.string, description: '描述' }
       },
       required: ['user_id', 'tag']
     },
@@ -67,8 +73,8 @@ export class TagController extends BaseController {
     path: '/v1/tags/{id}',
     tags: ['tag'],
     summary: '获取标签详情',
-    query: {
-      id: { type: 'number', description: '标签id' }
+    params: {
+      id: { type: swaggerTypes.number, description: '标签id' }
     },
     response: {
       status: 200,
@@ -88,12 +94,12 @@ export class TagController extends BaseController {
     path: '/v1/tags/{id}',
     tags: ['tag'],
     summary: '更新标签详情',
-    query: {
-      id: { type: 'number', description: '标签id' }
+    params: {
+      id: { type: swaggerTypes.number, description: '标签id' }
     },
     requestBody: {
       body: {
-        description: { type: 'string', description: '描述' }
+        description: { type: swaggerTypes.string, description: '描述' }
       }
     },
     response: {
@@ -117,8 +123,8 @@ export class TagController extends BaseController {
     path: '/v1/tags/{id}',
     tags: ['tag'],
     summary: '删除标签详情',
-    query: {
-      id: { type: 'number', description: '标签id' }
+    params: {
+      id: { type: swaggerTypes.number, description: '标签id' }
     },
     response: {
       status: 200,

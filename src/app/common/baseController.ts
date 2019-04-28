@@ -4,7 +4,7 @@ import {
   transformAndValidate
 } from 'class-transformer-validator'
 
-export abstract class BaseController {
+export class BaseController {
   public deserialize(
     model,
     params,
@@ -12,11 +12,7 @@ export abstract class BaseController {
   ) {
     return plainToClass(model, params, options)
   }
-  public async validate(
-    model,
-    body,
-    option?: TransformValidationOptions
-  ): Promise<any> {
+  public async validate(model, body, option?: TransformValidationOptions) {
     try {
       await transformAndValidate(model, body, option)
     } catch (err) {

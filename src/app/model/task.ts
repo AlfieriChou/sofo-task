@@ -5,7 +5,7 @@ import {
   IsBooleanString
 } from 'class-validator'
 import { Transform } from 'class-transformer'
-import { property } from '../decorator/router'
+import { property, swaggerTypes, swaggerFormats } from '../decorator/router'
 
 export class Query {
   @ValidateIf(o => o.otherProperty === 'value')
@@ -61,51 +61,51 @@ export class Update {
 
 export class Task {
   @property({
-    type: 'number',
+    type: swaggerTypes.number,
     description: 'id'
   })
   id!: number
   @property({
-    type: 'number',
+    type: swaggerTypes.number,
     description: 'user id'
   })
   user_id!: number
   @property({
-    type: 'number',
+    type: swaggerTypes.number,
     description: 'tag id'
   })
   tag_id!: number
   @property({
-    type: 'string',
+    type: swaggerTypes.string,
     description: 'task contents'
   })
   content!: string
   start_at!: Date
   @property({
-    type: 'string',
-    format: 'date-time',
+    type: swaggerTypes.string,
+    format: swaggerFormats.datetime,
     description: '开始时间'
   })
   @property({
-    type: 'string',
-    format: 'date-time',
+    type: swaggerTypes.string,
+    format: swaggerFormats.datetime,
     description: '结束时间'
   })
   end_at!: Date
   @property({
-    type: 'string',
-    format: 'date-time',
+    type: swaggerTypes.string,
+    format: swaggerFormats.datetime,
     description: '创建时间'
   })
   @property({
-    type: 'string',
-    format: 'date-time',
+    type: swaggerTypes.string,
+    format: swaggerFormats.datetime,
     description: '更新时间'
   })
   updated_at!: Date
   @property({
-    type: 'string',
-    format: 'date-time',
+    type: swaggerTypes.string,
+    format: swaggerFormats.datetime,
     description: '删除时间'
   })
   deleted_at!: Date

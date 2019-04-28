@@ -47,6 +47,25 @@ interface FieldProperty {
   description: string
 }
 
+export enum swaggerTypes {
+  integer = 'integer',
+  number = 'number',
+  string = 'string',
+  boolean = 'boolean'
+}
+
+export enum swaggerFormats {
+  int32 = 'int32',
+  int64 = 'int64',
+  float = 'float',
+  double = 'double',
+  byte = 'byte',
+  binary = 'binary',
+  date = 'date',
+  datetime = 'date-time',
+  password = 'password'
+}
+
 export const property = (field: FieldProperty) => {
   return (target: any, key: string, _descriptor?: any): void => {
     const model = {

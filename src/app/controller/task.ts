@@ -1,4 +1,10 @@
-import { prefix, route, Method, swaggerInfo } from '../decorator/router'
+import {
+  prefix,
+  route,
+  Method,
+  swaggerInfo,
+  swaggerTypes
+} from '../decorator/router'
 import { Context } from 'koa'
 import { BaseController } from '../common/baseController'
 import { Create, Update, Query } from '../model/task'
@@ -13,13 +19,13 @@ export class TaskController extends BaseController {
     tags: ['task'],
     summary: '获取task列表',
     query: {
-      id: { type: 'number', description: 'taskid' },
-      user_id: { type: 'number', description: '用户id' },
-      tag_id: { type: 'number', description: '标签id' },
-      sort: { type: 'string', description: '排序' },
-      pagination: { type: 'boolean', description: '是否分页' },
-      page: { type: 'number', description: '页码' },
-      limit: { type: 'number', description: '条数' }
+      id: { type: swaggerTypes.number, description: 'taskid' },
+      user_id: { type: swaggerTypes.number, description: '用户id' },
+      tag_id: { type: swaggerTypes.number, description: '标签id' },
+      sort: { type: swaggerTypes.string, description: '排序' },
+      pagination: { type: swaggerTypes.boolean, description: '是否分页' },
+      page: { type: swaggerTypes.number, description: '页码' },
+      limit: { type: swaggerTypes.number, description: '条数' }
     },
     response: {
       status: 200,
@@ -42,11 +48,14 @@ export class TaskController extends BaseController {
     summary: '创建task',
     requestBody: {
       body: {
-        user_id: { type: 'number', description: '用户id' },
-        tag_id: { type: 'number', description: '标签id' },
-        content: { type: 'string', description: '内容' },
-        start_at: { type: 'string', description: '开始时间 date-time' },
-        end_at: { type: 'string', description: '结束时间 date-time' }
+        user_id: { type: swaggerTypes.number, description: '用户id' },
+        tag_id: { type: swaggerTypes.number, description: '标签id' },
+        content: { type: swaggerTypes.string, description: '内容' },
+        start_at: {
+          type: swaggerTypes.string,
+          description: '开始时间 date-time'
+        },
+        end_at: { type: swaggerTypes.string, description: '结束时间 date-time' }
       },
       required: ['user_id', 'tag_id', 'content', 'start_at', 'end_at']
     },
@@ -69,8 +78,8 @@ export class TaskController extends BaseController {
     path: '/v1/tasks/{id}',
     tags: ['task'],
     summary: '获取task详情',
-    query: {
-      id: { type: 'number', description: 'task id' }
+    params: {
+      id: { type: swaggerTypes.number, description: 'task id' }
     },
     response: {
       status: 200,
@@ -90,14 +99,17 @@ export class TaskController extends BaseController {
     path: '/v1/tasks/{id}',
     tags: ['task'],
     summary: '更新task详情',
-    query: {
-      id: { type: 'number', description: 'task id' }
+    params: {
+      id: { type: swaggerTypes.number, description: 'task id' }
     },
     requestBody: {
       body: {
-        content: { type: 'string', description: '内容' },
-        start_at: { type: 'string', description: '开始时间 date-time' },
-        end_at: { type: 'string', description: '结束时间 date-time' }
+        content: { type: swaggerTypes.string, description: '内容' },
+        start_at: {
+          type: swaggerTypes.string,
+          description: '开始时间 date-time'
+        },
+        end_at: { type: swaggerTypes.string, description: '结束时间 date-time' }
       }
     },
     response: {
@@ -121,8 +133,8 @@ export class TaskController extends BaseController {
     path: '/v1/tasks/{id}',
     tags: ['task'],
     summary: '删除task详情',
-    query: {
-      id: { type: 'number', description: 'task id' }
+    params: {
+      id: { type: swaggerTypes.number, description: 'task id' }
     },
     response: {
       status: 200,

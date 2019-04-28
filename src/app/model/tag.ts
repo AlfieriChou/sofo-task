@@ -1,6 +1,6 @@
 import { Length, ValidateIf, IsString, IsBooleanString } from 'class-validator'
 import { Transform } from 'class-transformer'
-import { property } from '../decorator/router'
+import { property, swaggerTypes, swaggerFormats } from '../decorator/router'
 
 export class Query {
   @ValidateIf(o => o.otherProperty === 'value')
@@ -44,40 +44,40 @@ export class Update {
 
 export class Tag {
   @property({
-    type: 'number',
+    type: swaggerTypes.number,
     description: 'id'
   })
   id!: number
   @property({
-    type: 'number',
+    type: swaggerTypes.number,
     description: 'user id'
   })
   user_id!: number
   @property({
-    type: 'string',
+    type: swaggerTypes.string,
     description: 'tag'
   })
   tag!: string
   @property({
-    type: 'string',
+    type: swaggerTypes.string,
     description: 'tag description'
   })
   description!: string
   @property({
-    type: 'string',
-    format: 'date-time',
+    type: swaggerTypes.string,
+    format: swaggerFormats.datetime,
     description: '创建时间'
   })
   created_at!: Date
   @property({
-    type: 'string',
-    format: 'date-time',
+    type: swaggerTypes.string,
+    format: swaggerFormats.datetime,
     description: '更新时间'
   })
   updated_at!: Date
   @property({
-    type: 'string',
-    format: 'date-time',
+    type: swaggerTypes.string,
+    format: swaggerFormats.datetime,
     description: '删除时间'
   })
   deleted_at!: Date

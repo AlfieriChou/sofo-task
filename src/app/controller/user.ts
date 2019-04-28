@@ -1,4 +1,11 @@
-import { prefix, route, Method, swaggerInfo } from '../decorator/router'
+import {
+  prefix,
+  route,
+  Method,
+  swaggerInfo,
+  swaggerTypes,
+  swaggerFormats
+} from '../decorator/router'
 import { Context } from 'koa'
 import { BaseController } from '../common/baseController'
 import { Register, Login, Update } from '../model/user'
@@ -14,8 +21,12 @@ export class UserController extends BaseController {
     summary: '用户登录',
     requestBody: {
       body: {
-        username: { type: 'string', description: '用户名' },
-        password: { type: 'string', description: '密码' }
+        username: { type: swaggerTypes.string, description: '用户名' },
+        password: {
+          type: swaggerTypes.string,
+          format: swaggerFormats.password,
+          description: '密码'
+        }
       },
       required: ['username', 'password']
     },
@@ -61,10 +72,14 @@ export class UserController extends BaseController {
     summary: '用户注册',
     requestBody: {
       body: {
-        username: { type: 'string', description: '用户名' },
-        password: { type: 'string', description: '密码' },
-        age: { type: 'number', description: '年龄' },
-        description: { type: 'string', description: '描述' }
+        username: { type: swaggerTypes.string, description: '用户名' },
+        password: {
+          type: swaggerTypes.string,
+          format: swaggerFormats.password,
+          description: '密码'
+        },
+        age: { type: swaggerTypes.number, description: '年龄' },
+        description: { type: swaggerTypes.string, description: '描述' }
       },
       required: ['username', 'password']
     },
@@ -87,8 +102,8 @@ export class UserController extends BaseController {
     path: '/v1/users/{id}',
     tags: ['user'],
     summary: '获取用户详情',
-    query: {
-      id: { type: 'number', description: '用户id' }
+    params: {
+      id: { type: swaggerTypes.number, description: '用户id' }
     },
     response: {
       status: 200,
@@ -108,13 +123,13 @@ export class UserController extends BaseController {
     path: '/v1/users/{id}',
     tags: ['user'],
     summary: '更新用户信息',
-    query: {
-      id: { type: 'number', description: '用户id' }
+    params: {
+      id: { type: swaggerTypes.number, description: '用户id' }
     },
     requestBody: {
       body: {
-        age: { type: 'number', description: '年龄' },
-        description: { type: 'string', description: '描述' }
+        age: { type: swaggerTypes.number, description: '年龄' },
+        description: { type: swaggerTypes.string, description: '描述' }
       }
     },
     response: {
@@ -138,8 +153,8 @@ export class UserController extends BaseController {
     path: '/v1/users/{id}',
     tags: ['user'],
     summary: '删除用户信息',
-    query: {
-      id: { type: 'number', description: '用户id' }
+    params: {
+      id: { type: swaggerTypes.number, description: '用户id' }
     },
     response: {
       status: 200,

@@ -1,6 +1,6 @@
 import { Length, ValidateIf, IsNumber, IsString } from 'class-validator'
 import { Transform } from 'class-transformer'
-import { property } from '../decorator/router'
+import { property, swaggerTypes, swaggerFormats } from '../decorator/router'
 
 export class Register {
   @Length(3, 32)
@@ -24,50 +24,50 @@ export class Login {
 
 export class User {
   @property({
-    type: 'number',
+    type: swaggerTypes.number,
     description: 'id'
   })
   id!: number
   @property({
-    type: 'string',
+    type: swaggerTypes.string,
     description: 'user name'
   })
   username!: string
   @property({
-    type: 'string',
+    type: swaggerTypes.string,
     description: 'password'
   })
   password!: string
   @property({
-    type: 'number',
+    type: swaggerTypes.number,
     description: 'age'
   })
   age!: number
   @property({
-    type: 'string',
+    type: swaggerTypes.string,
     description: 'description'
   })
   description!: string
   @property({
-    type: 'string',
+    type: swaggerTypes.string,
     description: 'user type'
   })
   user_type!: string
   @property({
-    type: 'string',
-    format: 'date-time',
+    type: swaggerTypes.string,
+    format: swaggerFormats.datetime,
     description: '创建时间'
   })
   created_at!: Date
   @property({
-    type: 'string',
-    format: 'date-time',
+    type: swaggerTypes.string,
+    format: swaggerFormats.datetime,
     description: '更新时间'
   })
   updated_at!: Date
   @property({
-    type: 'string',
-    format: 'date-time',
+    type: swaggerTypes.string,
+    format: swaggerFormats.datetime,
     description: '删除时间'
   })
   deleted_at!: Date
