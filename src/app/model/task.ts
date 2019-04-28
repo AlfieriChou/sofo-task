@@ -80,12 +80,12 @@ export class Task {
     description: 'task contents'
   })
   content!: string
-  start_at!: Date
   @property({
     type: swaggerTypes.string,
     format: swaggerFormats.datetime,
     description: '开始时间'
   })
+  start_at!: Date
   @property({
     type: swaggerTypes.string,
     format: swaggerFormats.datetime,
@@ -97,6 +97,7 @@ export class Task {
     format: swaggerFormats.datetime,
     description: '创建时间'
   })
+  created_at!: Date
   @property({
     type: swaggerTypes.string,
     format: swaggerFormats.datetime,
