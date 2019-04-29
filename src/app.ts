@@ -11,6 +11,8 @@ import { config } from './config'
 import { loadControllers } from './app/decorator/router'
 import { Middleware } from './type'
 import { JWTMiddleware } from './middleware/JWTtoken'
+import { requestLog } from './middleware/requestLog'
+import { responseLog } from './middleware/responseLog'
 
 const app = new Koa()
 
@@ -75,7 +77,8 @@ if (process.env.NODE_ENV === 'development' || 'test') {
 }
 
 app.use(bodyParser())
-
+app.use(requestLog())
+app.use(responseLog())
 const router = loadControllers()
 app.use(router.routes())
 app.use(router.allowedMethods())
