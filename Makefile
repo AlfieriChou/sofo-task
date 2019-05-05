@@ -1,5 +1,4 @@
 ############################################
-ARCHS = 386 arm amd64 arm64
 VIEW_DIR := ./build/views
 
 build-app:

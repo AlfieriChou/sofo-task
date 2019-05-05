@@ -3,12 +3,14 @@ import { knex } from '../../database'
 import * as bcrypt from 'bcrypt'
 import { User } from '../model/user'
 import * as jwt from 'jsonwebtoken'
+import { Service } from 'typedi'
 
 interface Payload {
   sub: User
   exp: number
 }
 
+@Service()
 export class UserService extends BaseService {
   private createToken(user: User): string {
     let created_at: Date = new Date()

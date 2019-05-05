@@ -1,6 +1,8 @@
 import { BaseService } from '../common/baseService'
 import { knex } from '../../database'
+import { Service } from 'typedi'
 
+@Service()
 export class TagService extends BaseService {
   async index(params) {
     const sql = knex('sofo_tags').whereNull('deleted_at')

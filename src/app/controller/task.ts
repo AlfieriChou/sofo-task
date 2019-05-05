@@ -9,6 +9,9 @@ import { Context } from 'koa'
 import { BaseController } from '../common/baseController'
 import { Create, Update, Query } from '../model/task'
 import { TaskService } from '../service/task'
+import { Container } from 'typedi'
+
+const task = Container.get(TaskService)
 
 @prefix('/v1')
 export class TaskController extends BaseController {
@@ -37,7 +40,7 @@ export class TaskController extends BaseController {
   })
   async index(ctx: Context) {
     const params = super.deserialize(Query, ctx.query)
-    ctx.body = await new TaskService().index(params)
+    ctx.body = await task.index(params)
   }
 
   @route('/tasks', Method.POST)
@@ -69,7 +72,7 @@ export class TaskController extends BaseController {
   async create(ctx: Context) {
     const params = super.deserialize(Create, ctx.request.body)
     await super.validate(Create, params)
-    ctx.body = await new TaskService().create(params)
+    ctx.body = await task.create(params)
   }
 
   @route('/tasks/:id', Method.GET)
@@ -90,7 +93,7 @@ export class TaskController extends BaseController {
   })
   async show(ctx: Context) {
     const params = ctx.params
-    ctx.body = await new TaskService().show(params)
+    ctx.body = await task.show(params)
   }
 
   @route('/tasks/:id', Method.PUT)
@@ -124,7 +127,7 @@ export class TaskController extends BaseController {
       Object.assign(ctx.request.body, ctx.params)
     )
     await super.validate(Update, Object.assign(ctx.request.body, ctx.params))
-    ctx.body = await new TaskService().update(params)
+    ctx.body = await task.update(params)
   }
 
   @route('/tasks/:id', Method.DELETE)
@@ -144,6 +147,6 @@ export class TaskController extends BaseController {
   })
   async destroy(ctx: Context) {
     const params = ctx.params
-    ctx.body = await new TaskService().destroy(params)
+    ctx.body = await task.destroy(params)
   }
 }
