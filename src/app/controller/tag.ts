@@ -8,10 +8,6 @@ import {
 import { Context } from 'koa'
 import { BaseController } from '../common/baseController'
 import { Create, Update, Query } from '../model/tag'
-import { TagService } from '../service/tag'
-import { Container } from 'typedi'
-
-const tag = Container.get(TagService)
 
 @prefix('/v1')
 export class TagController extends BaseController {
@@ -40,7 +36,7 @@ export class TagController extends BaseController {
   })
   async index(ctx: Context) {
     const params = super.deserialize(Query, ctx.query)
-    ctx.body = await tag.index(params)
+    ctx.body = await ctx.service.tag.index(params)
   }
 
   @route('/tags', Method.POST)
@@ -67,7 +63,7 @@ export class TagController extends BaseController {
   async create(ctx: Context) {
     const params = super.deserialize(Create, ctx.request.body)
     await super.validate(Create, ctx.request.body)
-    ctx.body = await tag.create(params)
+    ctx.body = await ctx.service.tag.create(params)
   }
 
   @route('/tags/:id', Method.GET)
@@ -88,7 +84,7 @@ export class TagController extends BaseController {
   })
   async show(ctx: Context) {
     const params = ctx.params
-    ctx.body = await tag.show(params)
+    ctx.body = await ctx.service.tag.show(params)
   }
 
   @route('/tags/:id', Method.PUT)
@@ -117,7 +113,7 @@ export class TagController extends BaseController {
       Object.assign(ctx.params, ctx.request.body)
     )
     await super.validate(Update, Object.assign(ctx.params, ctx.request.body))
-    ctx.body = await tag.update(params)
+    ctx.body = await ctx.service.tag.update(params)
   }
 
   @route('/tags/:id', Method.DELETE)
@@ -137,6 +133,6 @@ export class TagController extends BaseController {
   })
   async destroy(ctx: Context) {
     const params = ctx.params
-    ctx.body = await tag.destroy(params)
+    ctx.body = await ctx.service.tag.destroy(params)
   }
 }

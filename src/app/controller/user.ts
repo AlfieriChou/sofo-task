@@ -9,10 +9,6 @@ import {
 import { Context } from 'koa'
 import { BaseController } from '../common/baseController'
 import { Register, Login, Update } from '../model/user'
-import { UserService } from '../service/user'
-import { Container } from 'typedi'
-
-const user = Container.get(UserService)
 
 @prefix('/v1')
 export class UserController extends BaseController {
@@ -43,7 +39,7 @@ export class UserController extends BaseController {
   async login(ctx: Context) {
     const params = super.deserialize(Login, ctx.request.body)
     await super.validate(Login, ctx.request.body)
-    const result = await user.login(params)
+    const result = await ctx.service.user.login(params)
     if (ctx.session) {
       ctx.session['user'] = result
     }
@@ -96,7 +92,7 @@ export class UserController extends BaseController {
   async register(ctx: Context) {
     const params = super.deserialize(Register, ctx.request.body)
     await super.validate(Register, ctx.request.body)
-    ctx.body = await user.register(params)
+    ctx.body = await ctx.service.user.register(params)
   }
 
   @route('/users/:id', Method.GET)
@@ -117,7 +113,7 @@ export class UserController extends BaseController {
   })
   async show(ctx: Context) {
     const params = ctx.params
-    ctx.body = await user.show(params)
+    ctx.body = await ctx.service.user.show(params)
   }
 
   @route('/users/:id', Method.PUT)
@@ -147,7 +143,7 @@ export class UserController extends BaseController {
       Object.assign(ctx.request.body, ctx.params)
     )
     await super.validate(Update, Object.assign(ctx.request.body, ctx.params))
-    ctx.body = await user.update(params)
+    ctx.body = await ctx.service.user.update(params)
   }
 
   @route('/users/:id', Method.DELETE)
@@ -167,6 +163,6 @@ export class UserController extends BaseController {
   })
   async destroy(ctx: Context) {
     const params = ctx.params
-    ctx.body = await user.destroy(params)
+    ctx.body = await ctx.service.user.destroy(params)
   }
 }

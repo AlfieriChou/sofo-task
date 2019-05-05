@@ -1,5 +1,6 @@
 import * as Koa from 'koa'
 import { Session } from 'koa-generic-session'
+import { IContainer } from './extends/ioc'
 
 export type Middleware = (ctx: Koa.Context, next?: any) => any | Promise<any>
 
@@ -33,5 +34,6 @@ declare module 'koa' {
   interface Context extends Koa.BaseContext {
     session: Session | null
     request: Request
+    service: IContainer
   }
 }

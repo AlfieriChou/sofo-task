@@ -13,6 +13,7 @@ import { Middleware } from './type'
 import { JWTMiddleware } from './middleware/JWTtoken'
 import { requestLog } from './middleware/requestLog'
 import { responseLog } from './middleware/responseLog'
+import { container } from './extends/ioc'
 
 const app = new Koa()
 
@@ -57,6 +58,8 @@ const cors: Middleware = async (ctx, next) => {
     }
   }
 }
+
+app.context.service = container
 
 app.keys = ['sofo', 'task']
 app.use(redisSession)
