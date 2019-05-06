@@ -44,6 +44,7 @@ let swagger = {
 interface FieldProperty {
   type: string
   format?: string
+  enum?: string[]
   description: string
 }
 
@@ -63,7 +64,8 @@ export enum swaggerFormats {
   binary = 'binary',
   date = 'date',
   datetime = 'date-time',
-  password = 'password'
+  password = 'password',
+  uuid = 'uuid'
 }
 
 export const property = (field: FieldProperty) => {
