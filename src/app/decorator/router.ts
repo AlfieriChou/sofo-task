@@ -42,8 +42,8 @@ let swagger = {
 }
 
 interface FieldProperty {
-  type: string
-  format?: string
+  type: swaggerTypes
+  format?: swaggerFormats
   enum?: string[]
   description: string
 }
