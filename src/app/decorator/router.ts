@@ -120,7 +120,7 @@ let methods: OpenApi.PathItemObject[] = []
 
 export const swaggerInfo = (sinfo: SwaggerInfo) => {
   return (_target: any, _key?: string | symbol, _descriptor?: any): void => {
-    const content: OpenApi.PathObject = {
+    const content: OpenApi.OperationObject = {
       tags: sinfo.tags,
       summary: sinfo.summary || '',
       responses: {}
@@ -177,43 +177,50 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
       }
     }
     if (sinfo.response) {
-      let resContent
+      let responses: OpenApi.ResponsesObject = content.responses
+      let response: OpenApi.ResponseObject
       if (sinfo.response.schema && sinfo.response.res_type === 'object') {
-        resContent = {
-          'application/json': {
-            schema: schemas[sinfo.response.schema]
+        response = {
+          description: sinfo.response.description || '',
+          content: {
+            'application/json': {
+              schema: schemas[sinfo.response.schema]
+            }
           }
         }
       }
       if (sinfo.response.schema && sinfo.response.res_type === 'array') {
         if (sinfo.response.paginate) {
-          resContent = {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  result: {
-                    type: 'array',
-                    items: schemas[sinfo.response.schema]
-                  },
-                  paginate: {
-                    type: 'object',
-                    properties: {
-                      page: {
-                        type: swaggerTypes.number,
-                        description: '页码'
-                      },
-                      size: {
-                        type: swaggerTypes.number,
-                        description: '条数'
-                      },
-                      row_count: {
-                        type: swaggerTypes.number,
-                        description: '总数'
-                      },
-                      page_count: {
-                        type: swaggerTypes.number,
-                        description: '页码总数'
+          response = {
+            description: sinfo.response.description || '',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    result: {
+                      type: 'array',
+                      items: schemas[sinfo.response.schema]
+                    },
+                    paginate: {
+                      type: 'object',
+                      properties: {
+                        page: {
+                          type: swaggerTypes.number,
+                          description: '页码'
+                        },
+                        size: {
+                          type: swaggerTypes.number,
+                          description: '条数'
+                        },
+                        row_count: {
+                          type: swaggerTypes.number,
+                          description: '总数'
+                        },
+                        page_count: {
+                          type: swaggerTypes.number,
+                          description: '页码总数'
+                        }
                       }
                     }
                   }
@@ -222,46 +229,53 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
             }
           }
         } else {
-          resContent = {
-            'application/json': {
-              schema: {
-                type: 'array',
-                items: schemas[sinfo.response.schema]
+          response = {
+            description: sinfo.response.description || '',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: schemas[sinfo.response.schema]
+                }
               }
             }
           }
         }
       }
       if (sinfo.response.res_type === 'number') {
-        resContent = {
-          'application/json': {
-            schema: {
-              type: 'object',
-              properties: {
-                result: { type: swaggerTypes.number, description: '返回标识' }
+        response = {
+          description: sinfo.response.description || '',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  result: { type: swaggerTypes.number, description: '返回标识' }
+                }
+              }
+            }
+          }
+        }
+      } else {
+        response = {
+          description: sinfo.response.description || '',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  result: { type: swaggerTypes.string, description: '返回标识' }
+                }
               }
             }
           }
         }
       }
-      let responses: OpenApi.ResponsesObject = content.responses
-      responses[sinfo.response.status] = {
-        description: sinfo.response.description || '',
-        content: resContent || {
-          'application/json': {
-            schema: {
-              type: 'object',
-              properties: {
-                result: { type: swaggerTypes.string, description: '返回标识' }
-              }
-            }
-          }
-        }
-      }
+      responses[sinfo.response.status] = response
     }
-    let swaggerMethod: OpenApi.PathObject = {}
+    let swaggerMethod: OpenApi.PathItemObject = {}
     swaggerMethod[sinfo.method] = content
-    let swaggerPath: OpenApi.PathItemObject = {}
+    let swaggerPath: OpenApi.PathObject = {}
     swaggerPath[sinfo.path] = swaggerMethod
     methods.push(swaggerPath)
   }
@@ -324,7 +338,7 @@ export const loadControllers = () => {
   files.map(file => {
     require(file)
   })
-  let mergeMethod: OpenApi.PathItemObject = {}
+  let mergeMethod: OpenApi.PathsObject = {}
   for (let i = 0; i < methods.length; ++i) {
     mergeMethod = mergeDeep(mergeMethod, methods[i])
   }
