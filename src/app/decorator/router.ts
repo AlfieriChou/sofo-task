@@ -178,7 +178,19 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
     }
     if (sinfo.response) {
       let responses: OpenApi.ResponsesObject = content.responses
-      let response: OpenApi.ResponseObject
+      let response: OpenApi.ResponseObject = {
+        description: sinfo.response.description || '',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                result: { type: swaggerTypes.string, description: '返回标识' }
+              }
+            }
+          }
+        }
+      }
       if (sinfo.response.schema && sinfo.response.res_type === 'object') {
         response = {
           description: sinfo.response.description || '',
@@ -251,20 +263,6 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
                 type: 'object',
                 properties: {
                   result: { type: swaggerTypes.number, description: '返回标识' }
-                }
-              }
-            }
-          }
-        }
-      } else {
-        response = {
-          description: sinfo.response.description || '',
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  result: { type: swaggerTypes.string, description: '返回标识' }
                 }
               }
             }
