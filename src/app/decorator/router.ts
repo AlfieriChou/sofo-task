@@ -3,6 +3,7 @@ import * as dir from 'dir_filenames'
 import { resolve } from 'path'
 import { Middleware } from '../../type'
 import { mergeDeep } from '../common'
+import * as OpenApi from 'openapi3-ts'
 
 const router = new Router()
 
@@ -23,7 +24,7 @@ export enum Method {
   DELETE
 }
 
-let swagger = {
+let swagger: OpenApi.OpenAPIObject = {
   openapi: '3.0.0',
   info: {
     title: 'SOFO API document',
@@ -68,6 +69,11 @@ export enum swaggerFormats {
   uuid = 'uuid'
 }
 
+let schemas: OpenApi.SchemaObject
+if (swagger.components && swagger.components.schemas) {
+  schemas = swagger.components.schemas
+}
+
 export const property = (field: FieldProperty) => {
   return (target: any, key: string, _descriptor?: any): void => {
     const model = {
@@ -78,10 +84,7 @@ export const property = (field: FieldProperty) => {
     model.properties[key] = field
     const modelName = target.constructor.name
     components[modelName] = model
-    swagger.components.schemas = mergeDeep(
-      swagger.components.schemas,
-      components
-    )
+    schemas = mergeDeep(schemas, components)
   }
 }
 
@@ -117,13 +120,13 @@ let methods: any[] = []
 
 export const swaggerInfo = (sinfo: SwaggerInfo) => {
   return (_target: any, _key?: string | symbol, _descriptor?: any): void => {
-    const content = {
+    const content: OpenApi.PathObject = {
       tags: sinfo.tags,
       summary: sinfo.summary || '',
       responses: {}
     }
     if (sinfo.query) {
-      let parameters: Object[] = []
+      let parameters: OpenApi.ParameterObject[] = []
       for (let i in sinfo.query) {
         parameters.push({
           name: i,
@@ -135,10 +138,10 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
           required: false
         })
       }
-      content['parameters'] = parameters
+      content.parameters = parameters
     }
     if (sinfo.params) {
-      let parameters: Object[] = []
+      let parameters: OpenApi.ParameterObject[] = []
       for (let i in sinfo.params) {
         parameters.push({
           name: i,
@@ -150,7 +153,7 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
           required: true
         })
       }
-      content['parameters'] = parameters
+      content.parameters = parameters
     }
     if (sinfo.requestBody) {
       const schema = {
@@ -164,7 +167,7 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
           description: sinfo.requestBody.body[i].description
         }
       }
-      content['requestBody'] = {
+      content.requestBody = {
         required: true,
         content: {
           'application/json': {
@@ -178,7 +181,7 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
       if (sinfo.response.schema && sinfo.response.res_type === 'object') {
         resContent = {
           'application/json': {
-            schema: swagger.components.schemas[sinfo.response.schema]
+            schema: schemas[sinfo.response.schema]
           }
         }
       }
@@ -191,7 +194,7 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
                 properties: {
                   result: {
                     type: 'array',
-                    items: swagger.components.schemas[sinfo.response.schema]
+                    items: schemas[sinfo.response.schema]
                   },
                   paginate: {
                     type: 'object',
@@ -223,7 +226,7 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
             'application/json': {
               schema: {
                 type: 'array',
-                items: swagger.components.schemas[sinfo.response.schema]
+                items: schemas[sinfo.response.schema]
               }
             }
           }
@@ -241,7 +244,8 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
           }
         }
       }
-      content.responses[sinfo.response.status] = {
+      let responses: OpenApi.ResponsesObject = content.responses
+      responses[sinfo.response.status] = {
         description: sinfo.response.description || '',
         content: resContent || {
           'application/json': {

@@ -51,6 +51,7 @@
     "husky": "2.2.0",
     "jest": "24.7.1",
     "nodemon": "1.19.0",
+    "openapi3-ts": "1.2.0",
     "prettier": "1.17.0",
     "pretty-quick": "1.10.0",
     "standard-version": "5.0.2",
