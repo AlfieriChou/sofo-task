@@ -116,7 +116,7 @@ interface Response {
   paginate?: boolean
 }
 
-let methods: any[] = []
+let methods: OpenApi.PathItemObject[] = []
 
 export const swaggerInfo = (sinfo: SwaggerInfo) => {
   return (_target: any, _key?: string | symbol, _descriptor?: any): void => {
@@ -259,9 +259,9 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
         }
       }
     }
-    let swaggerMethod = {}
+    let swaggerMethod: OpenApi.PathObject = {}
     swaggerMethod[sinfo.method] = content
-    let swaggerPath = {}
+    let swaggerPath: OpenApi.PathItemObject = {}
     swaggerPath[sinfo.path] = swaggerMethod
     methods.push(swaggerPath)
   }
@@ -324,7 +324,7 @@ export const loadControllers = () => {
   files.map(file => {
     require(file)
   })
-  let mergeMethod = {}
+  let mergeMethod: OpenApi.PathItemObject = {}
   for (let i = 0; i < methods.length; ++i) {
     mergeMethod = mergeDeep(mergeMethod, methods[i])
   }
