@@ -1,5 +1,6 @@
 import * as chalk from 'chalk'
 import * as Knex from 'knex'
+import { logger } from '../app/common/logger'
 
 export const knexLogger = (knex: Knex) => {
   return async (ctx, next) => {
@@ -25,16 +26,25 @@ export const knexLogger = (knex: Knex) => {
 
     const logQueries = () => {
       queries.forEach(query => {
-        const color = chalk['cyan']
-        console.log(
-          '%s %s %s %s',
-          chalk['gray']('SQL'),
-          color(query['sql']),
-          chalk['gray']('{' + query['bindings'].join(', ') + '}'),
-          chalk['magenta'](query['duration'] + 'ms')
+        if (process.env.NODE_ENV === 'development') {
+          const color = chalk['cyan']
+          console.log(
+            '%s %s %s %s',
+            chalk['gray']('SQL'),
+            color(query['sql']),
+            chalk['gray']('{' + query['bindings'].join(', ') + '}'),
+            chalk['magenta'](query['duration'] + 'ms')
+          )
+        }
+        logger.info(
+          JSON.stringify({
+            sql: query['sql'],
+            duration: query['duration'] + 'ms'
+          })
         )
         ctx.span.log({
-          sql: query['sql'] + ': ' + query['duration'] + 'ms'
+          sql: query['sql'],
+          duration: query['duration'] + 'ms'
         })
       })
     }

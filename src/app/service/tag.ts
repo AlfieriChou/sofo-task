@@ -15,7 +15,7 @@ export class TagService extends BaseService {
       const { count } = await countSql.count('* as count').first()
       sql.offset((params.page - 1) * params.size).limit(params.size)
       const result = await sql
-      const paginate = this.paginate(count, params.page, params.size)
+      const paginate = this.paginate(Number(count), params.page, params.size)
       return {
         result: result,
         paginate: paginate
