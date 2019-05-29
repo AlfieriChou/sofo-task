@@ -23,3 +23,17 @@ Task management system.
   ```
   http://127.0.0.1:4000/v1/apidoc
   ```
+
+## jaeger
+
+- container
+
+  ```bash
+  make jaeger
+  ```
+
+- page
+
+  ```
+  http://127.0.0.1:16686
+  ```

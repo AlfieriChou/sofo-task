@@ -1,5 +1,6 @@
 import { initTracer as initJaegerTracer } from 'jaeger-client'
 import * as opentracing from 'opentracing'
+import { logger } from '../app/common/logger'
 
 const initTracer = (serviceName: string) => {
   const config = {
@@ -9,16 +10,16 @@ const initTracer = (serviceName: string) => {
       param: 1
     },
     reporter: {
-      logSpans: false // this logs whenever we send a span
+      logSpans: false
     }
   }
   const options = {
     logger: {
       info: (msg: string) => {
-        console.log('INFO  ', msg)
+        logger.info(msg)
       },
       error: (msg: string) => {
-        console.log('ERROR ', msg)
+        logger.error(msg)
       }
     }
   }
