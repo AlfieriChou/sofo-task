@@ -2,7 +2,7 @@ import { Context } from 'koa'
 import { logger } from '../app/common/logger'
 import * as _ from 'lodash'
 import * as moment from 'moment'
-import { createControllerSpan, finishSpanWithResult } from './jaegerRracer'
+import { createControllerSpan, finishSpanWithResult } from './jaegerTracer'
 import * as errStackParser from 'error-stack-parser'
 
 interface ReqJson {
