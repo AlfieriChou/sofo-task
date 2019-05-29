@@ -79,6 +79,7 @@ export const requestLog = () => {
       reqJson.req_params['password'] = '******'
     }
     const span = createControllerSpan(ctx.method, ctx.path, ctx.header)
+    ctx.span = span
     logger.info(JSON.stringify(reqJson))
     span.log({ req: JSON.stringify(reqJson) })
     try {

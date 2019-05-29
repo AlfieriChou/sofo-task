@@ -26,7 +26,7 @@ const initTracer = (serviceName: string) => {
   return initJaegerTracer(config, options)
 }
 
-export const tracer = initTracer('sofo-api') as opentracing.Tracer
+const tracer = initTracer('sofo-api') as opentracing.Tracer
 
 export const createControllerSpan = (
   method: string,

@@ -13,6 +13,8 @@ import { Middleware } from './type'
 import { JWTMiddleware } from './middleware/JWTtoken'
 import { requestLog } from './middleware/jaegerLog'
 import { container } from './extends/ioc'
+import { knexLogger } from './middleware/knexLogger'
+import { knex } from './database'
 
 const app = new Koa()
 
@@ -80,6 +82,7 @@ if (process.env.NODE_ENV === 'development' || 'test') {
 
 app.use(bodyParser())
 app.use(requestLog())
+app.use(knexLogger(knex))
 const router = loadControllers()
 app.use(router.routes())
 app.use(router.allowedMethods())
