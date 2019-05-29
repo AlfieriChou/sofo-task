@@ -5264,7 +5264,7 @@ only@~0.0.2:
   resolved "https://registry.yarnpkg.com/only/-/only-0.0.2.tgz#2afde84d03e50b9a8edc444e30610a70295edfb4"
   integrity sha1-Kv3oTQPlC5qO3EROMGEKcCle37Q=
 
-openapi3-ts@^1.2.0:
+openapi3-ts@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/openapi3-ts/-/openapi3-ts-1.2.0.tgz#b86b518b7d7b5589e5266024c96bdc723e255112"
   integrity sha512-oWRW8aI58UPD1ufx54y4QOCwqdQPedCRBKmqgwRUtetz4+NUJD2opWn3a0Te4yLzlFdf9eGinrKvc3uvD2Wegw==
@@ -5645,7 +5645,19 @@ pretty-format@^24.8.0:
     ansi-styles "^3.2.0"
     react-is "^16.8.4"
 
-pretty-quick@1.10.0, pretty-quick@^1.10.0:
+pretty-quick@1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/pretty-quick/-/pretty-quick-1.11.0.tgz#d0bf997f3eb7de3d1bac5ffeb9c335f404d844c8"
+  integrity sha512-hy0yOSnqVykrgoHcCcB72p3B5ERQJcjQI6ExeSGSTFE2cDrPwCQtFb3kXA1F+jUPrbt7orra8U+fjS/Emjgpuw==
+  dependencies:
+    chalk "^2.3.0"
+    execa "^0.8.0"
+    find-up "^2.1.0"
+    ignore "^3.3.7"
+    mri "^1.1.0"
+    multimatch "^3.0.0"
+
+pretty-quick@^1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/pretty-quick/-/pretty-quick-1.10.0.tgz#d86cc46fe92ed8cfcfba6a082ec5949c53858198"
   integrity sha512-uNvm2N3UWmnZRZrClyQI45hIbV20f5BpSyZY51Spbvn4APp9+XLyX4bCjWRGT3fGyVyQ/2/iw7dbQq1UUaq7SQ==
