@@ -74,7 +74,7 @@
     "class-validator": "0.9.1",
     "dir_filenames": "1.0.6",
     "jsonwebtoken": "8.5.1",
-    "knex": "0.16.5",
+    "knex": "0.17.0",
     "koa": "2.7.0",
     "koa-bodyparser": "4.2.1",
     "koa-generic-session": "2.0.1",
