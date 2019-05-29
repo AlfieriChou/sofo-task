@@ -1,24 +1,24 @@
 import * as chalk from 'chalk'
 import * as Knex from 'knex'
 
-export const knexLogger = knex => {
+export const knexLogger = (knex: Knex) => {
   return async (ctx, next) => {
-    const queries: any[] = []
+    const queries: Knex.QueryBuilder[] = []
 
     const captureQueries = (builder: Knex) => {
       const startTime = process.hrtime()
-      const group: any[] = []
+      const group: Knex.QueryBuilder[] = []
 
-      builder.on('query', query => {
+      builder.on('query', (query: Knex.QueryBuilder) => {
         group.push(query)
         queries.push(query)
       })
 
       builder.on('end', () => {
         const diff = process.hrtime(startTime)
-        const ms = diff[0] * 1e3 + diff[1] * 1e-6
+        const ms: number = diff[0] * 1e3 + diff[1] * 1e-6
         group.forEach(query => {
-          query.duration = ms.toFixed(3)
+          query['duration'] = ms.toFixed(3)
         })
       })
     }
@@ -29,12 +29,12 @@ export const knexLogger = knex => {
         console.log(
           '%s %s %s %s',
           chalk['gray']('SQL'),
-          color(query.sql),
-          chalk['gray']('{' + query.bindings.join(', ') + '}'),
-          chalk['magenta'](query.duration + 'ms')
+          color(query['sql']),
+          chalk['gray']('{' + query['bindings'].join(', ') + '}'),
+          chalk['magenta'](query['duration'] + 'ms')
         )
         ctx.span.log({
-          sql: query.sql + ': ' + query.duration + 'ms'
+          sql: query['sql'] + ': ' + query['duration'] + 'ms'
         })
       })
     }
