@@ -7,7 +7,7 @@ const initTracer = (serviceName: string) => {
   const config = {
     serviceName: serviceName,
     sampler: {
-      type: 'const',
+      type: 'sofo',
       param: 1
     },
     reporter: {
@@ -59,6 +59,13 @@ export const createSpan = (record: Record, ctx): opentracing.Span => {
   }
   const parentSpan: opentracing.Span = getParentSpan(ctx)
   let span: opentracing.Span
+  if (record.type === 'sql') {
+    span = sqlTracer.startSpan(ctx.path, {
+      childOf: parentSpan,
+      startTime: record.timestamp.getTime(),
+      tags
+    })
+  }
   if (parentSpan) {
     span = tracer.startSpan(ctx.path, {
       childOf: parentSpan,
@@ -67,14 +74,6 @@ export const createSpan = (record: Record, ctx): opentracing.Span => {
     })
   } else {
     span = tracer.startSpan(ctx.path, {
-      childOf: parentSpan,
-      startTime: record.timestamp.getTime(),
-      tags
-    })
-  }
-
-  if (record.type === 'sql') {
-    span = sqlTracer.startSpan(ctx.path, {
       childOf: parentSpan,
       startTime: record.timestamp.getTime(),
       tags
