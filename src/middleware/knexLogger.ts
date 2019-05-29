@@ -45,8 +45,8 @@ export const knexLogger = (knex: Knex) => {
         )
         const span = createSpan(
           {
-            type: 'another',
-            requestId: 'API' + JSON.stringify(Math.random() * 10000 + 1000),
+            type: 'sql',
+            requestId: 'SQL' + JSON.stringify(Math.random() * 10000 + 1000),
             timestamp: new Date()
           },
           ctx

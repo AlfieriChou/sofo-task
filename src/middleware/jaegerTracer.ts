@@ -31,6 +31,10 @@ const tracer = initTracer(
   'sofo-api' + '-' + process.env.NODE_ENV || ''
 ) as opentracing.Tracer
 
+const sqlTracer = initTracer(
+  'sofo-sql' + '-' + process.env.NODE_ENV || ''
+) as opentracing.Tracer
+
 interface Record {
   type: string
   requestId: string
@@ -63,6 +67,14 @@ export const createSpan = (record: Record, ctx): opentracing.Span => {
     })
   } else {
     span = tracer.startSpan(ctx.path, {
+      childOf: parentSpan,
+      startTime: record.timestamp.getTime(),
+      tags
+    })
+  }
+
+  if (record.type === 'sql') {
+    span = sqlTracer.startSpan(ctx.path, {
       childOf: parentSpan,
       startTime: record.timestamp.getTime(),
       tags
