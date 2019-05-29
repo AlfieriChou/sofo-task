@@ -1,6 +1,7 @@
 import * as chalk from 'chalk'
 import * as Knex from 'knex'
 import { logger } from '../app/common/logger'
+import { createSpan } from './jaegerTracer'
 
 export const knexLogger = (knex: Knex) => {
   return async (ctx, next) => {
@@ -42,7 +43,15 @@ export const knexLogger = (knex: Knex) => {
             duration: query['duration'] + 'ms'
           })
         )
-        ctx.span.log({
+        const span = createSpan(
+          {
+            type: 'another',
+            requestId: 'API' + JSON.stringify(Math.random() * 10000 + 1000),
+            timestamp: new Date()
+          },
+          ctx
+        )
+        span.log({
           sql: query['sql'],
           duration: query['duration'] + 'ms'
         })

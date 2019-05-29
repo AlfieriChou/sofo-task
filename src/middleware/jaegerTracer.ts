@@ -1,6 +1,7 @@
 import { initTracer as initJaegerTracer } from 'jaeger-client'
 import * as opentracing from 'opentracing'
 import { logger } from '../app/common/logger'
+import * as _ from 'lodash'
 
 const initTracer = (serviceName: string) => {
   const config = {
@@ -30,44 +31,43 @@ const tracer = initTracer(
   'sofo-api' + '-' + process.env.NODE_ENV || ''
 ) as opentracing.Tracer
 
-export const createControllerSpan = (
-  method: string,
-  path: string,
-  headers: any
-) => {
-  let traceSpan: opentracing.Span
-
-  const parentSpanContext = tracer.extract(
-    opentracing.FORMAT_HTTP_HEADERS,
-    headers
-  )
-  if (parentSpanContext) {
-    traceSpan = tracer.startSpan(path, {
-      childOf: parentSpanContext,
-      tags: {
-        [opentracing.Tags.SPAN_KIND]: opentracing.Tags.SPAN_KIND_RPC_SERVER,
-        [opentracing.Tags.COMPONENT]: method
-      }
-    })
-  } else {
-    traceSpan = tracer.startSpan(path, {
-      tags: {
-        [opentracing.Tags.SPAN_KIND]: opentracing.Tags.SPAN_KIND_RPC_SERVER,
-        [opentracing.Tags.COMPONENT]: method
-      }
-    })
-  }
-  return traceSpan
+interface Record {
+  type: string
+  requestId: string
+  timestamp: Date
 }
 
-export const finishSpanWithResult = (
-  span: opentracing.Span,
-  status: Number,
-  errorTag?: boolean
-) => {
-  span.setTag(opentracing.Tags.HTTP_STATUS_CODE, status)
-  if (errorTag) {
-    span.setTag(opentracing.Tags.ERROR, true)
+const getParentSpan = ctx => {
+  return ctx._spans[ctx._spans.length - 1]
+}
+
+export const finishSpanAll = ctx => {
+  _.each(ctx._spans, span => span.finish())
+}
+
+export const createSpan = (record: Record, ctx): opentracing.Span => {
+  if (record.type === 'start') {
+    ctx._spans = [] as opentracing.Span[]
   }
-  span.finish()
+  const tags = {
+    [opentracing.Tags.HTTP_URL]: ctx.url,
+    requestId: record.requestId
+  }
+  const parentSpan: opentracing.Span = getParentSpan(ctx)
+  let span: opentracing.Span
+  if (parentSpan) {
+    span = tracer.startSpan(ctx.path, {
+      childOf: parentSpan,
+      startTime: record.timestamp.getTime(),
+      tags
+    })
+  } else {
+    span = tracer.startSpan(ctx.path, {
+      childOf: parentSpan,
+      startTime: record.timestamp.getTime(),
+      tags
+    })
+  }
+  ctx._spans.push(span)
+  return span
 }

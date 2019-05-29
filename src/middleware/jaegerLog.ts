@@ -2,7 +2,7 @@ import { Context } from 'koa'
 import { logger } from '../app/common/logger'
 import * as _ from 'lodash'
 import * as moment from 'moment'
-import { createControllerSpan, finishSpanWithResult } from './jaegerTracer'
+import { createSpan, finishSpanAll } from './jaegerTracer'
 import * as errStackParser from 'error-stack-parser'
 
 interface ReqJson {
@@ -78,30 +78,52 @@ export const requestLog = () => {
     if (reqJson.req_params['password']) {
       reqJson.req_params['password'] = '******'
     }
-    const span = createControllerSpan(ctx.method, ctx.path, ctx.header)
-    ctx.span = span
+    const reqSpan = createSpan(
+      {
+        type: 'start',
+        requestId: 'API' + JSON.stringify(Math.random() * 10000 + 1000),
+        timestamp: new Date()
+      },
+      ctx
+    )
     logger.info(JSON.stringify(reqJson))
-    span.log({ req: JSON.stringify(reqJson) })
+    reqSpan.log({ req: JSON.stringify(reqJson) })
     try {
       await next()
     } catch (err) {
+      const resSpan = createSpan(
+        {
+          type: 'end',
+          requestId: 'API' + JSON.stringify(Math.random() * 10000 + 1000),
+          timestamp: new Date()
+        },
+        ctx
+      )
       const errArr = errStackParser.parse(err)
       const resJson = logRes(ctx)
       resJson.res_status = err.code || err.status || 500
       resJson.res_message = err.message || ''
       logger.error(JSON.stringify(resJson))
-      span.log({
+      resSpan.log({
         errStatus: resJson.res_status,
         resMessage: resJson.res_message,
         fn: errArr[0].functionName,
         filename: errArr[0].fileName
       })
-      finishSpanWithResult(span, ctx.status, true)
+      finishSpanAll(ctx)
       throw err
     }
+    const resSpan = createSpan(
+      {
+        type: 'end',
+        requestId: 'API' + JSON.stringify(Math.random() * 10000 + 1000),
+        timestamp: new Date()
+      },
+      ctx
+    )
     const resJson = logRes(ctx)
     logger.info(JSON.stringify(resJson))
-    span.log({ res: JSON.stringify(resJson) })
-    finishSpanWithResult(span, ctx.status, false)
+    resSpan.log({ res: JSON.stringify(resJson) })
+    finishSpanAll(ctx)
   }
 }
