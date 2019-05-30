@@ -1,6 +1,7 @@
 import * as Koa from 'koa'
 import { Session } from 'koa-generic-session'
 import { IContainer } from './extends/ioc'
+import * as opentracing from 'opentracing'
 
 export type Middleware = (ctx: Koa.Context, next?: any) => any | Promise<any>
 
@@ -35,5 +36,7 @@ declare module 'koa' {
     session: Session | null
     request: Request
     service: IContainer
+    queries: Knex.QueryBuilder[]
+    _spans: opentracing.Span[]
   }
 }

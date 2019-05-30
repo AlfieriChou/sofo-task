@@ -2,6 +2,7 @@ import { initTracer as initJaegerTracer } from 'jaeger-client'
 import * as opentracing from 'opentracing'
 import { logger } from '../app/common/logger'
 import * as _ from 'lodash'
+import { Context } from 'koa'
 
 const initTracer = (serviceName: string) => {
   const config = {
@@ -41,15 +42,15 @@ interface Record {
   timestamp: Date
 }
 
-const getParentSpan = ctx => {
+const getParentSpan = (ctx: Context) => {
   return ctx._spans[ctx._spans.length - 1]
 }
 
-export const finishSpanAll = ctx => {
+export const finishSpanAll = (ctx: Context) => {
   _.each(ctx._spans, span => span.finish())
 }
 
-export const createSpan = (record: Record, ctx): opentracing.Span => {
+export const createSpan = (record: Record, ctx: Context): opentracing.Span => {
   if (record.type === 'start') {
     ctx._spans = [] as opentracing.Span[]
   }
