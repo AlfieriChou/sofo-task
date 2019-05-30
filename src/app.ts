@@ -52,7 +52,7 @@ const cors: Middleware = async (ctx, next) => {
   try {
     await next()
   } catch (err) {
-    ctx.status = err.statusCode || err.status || 500
+    ctx.status = err.code || err.status || 500
     ctx.body = {
       code: ctx.status,
       message: err.message,

@@ -55,6 +55,12 @@ export class RestrictedAccessException extends Exception {
   }
 }
 
+export class ValidationErrorException extends Exception {
+  constructor(message: string) {
+    super(message, 422)
+  }
+}
+
 export class RuntimeException extends Exception {
   constructor(message: string) {
     super(message, 500)

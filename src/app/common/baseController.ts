@@ -3,6 +3,7 @@ import {
   TransformValidationOptions,
   transformAndValidate
 } from 'class-transformer-validator'
+import { ValidationErrorException } from './exception'
 
 export class BaseController {
   public deserialize(
@@ -16,11 +17,7 @@ export class BaseController {
     try {
       await transformAndValidate(model, body, option)
     } catch (err) {
-      const error: any = {}
-      error.message = err[0].constraints
-      error.status = 422
-      error.stack = err[0].constraints
-      throw error
+      throw new ValidationErrorException(JSON.stringify(err[0].constraints))
     }
   }
 }
