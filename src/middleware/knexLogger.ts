@@ -1,19 +1,27 @@
-import * as chalk from 'chalk'
 import * as Knex from 'knex'
-import { logger } from '../app/common/logger'
 import { createSpan } from './jaegerTracer'
 
 export const knexLogger = (knex: Knex) => {
   return async (ctx, next) => {
     const queries: Knex.QueryBuilder[] = []
+    const group: Knex.QueryBuilder[] = []
+    ctx.queries = queries
+    ctx.group = group
 
     const captureQueries = (builder: Knex) => {
       const startTime = process.hrtime()
-      const group: Knex.QueryBuilder[] = []
 
       builder.on('query', (query: Knex.QueryBuilder) => {
-        group.push(query)
-        queries.push(query)
+        createSpan(
+          {
+            type: 'sql',
+            requestId: 'SQL' + JSON.stringify(Math.random() * 10000 + 1000),
+            timestamp: new Date()
+          },
+          ctx
+        )
+        ctx.group.push(query)
+        ctx.queries.push(query)
       })
 
       builder.on('end', () => {
@@ -25,42 +33,8 @@ export const knexLogger = (knex: Knex) => {
       })
     }
 
-    const logQueries = () => {
-      queries.forEach(query => {
-        if (process.env.NODE_ENV === 'development') {
-          const color = chalk['cyan']
-          console.log(
-            '%s %s %s %s',
-            chalk['gray']('SQL'),
-            color(query['sql']),
-            chalk['gray']('{' + query['bindings'].join(', ') + '}'),
-            chalk['magenta'](query['duration'] + 'ms')
-          )
-        }
-        logger.info(
-          JSON.stringify({
-            sql: query['sql'],
-            duration: query['duration'] + 'ms'
-          })
-        )
-        const span = createSpan(
-          {
-            type: 'sql',
-            requestId: 'SQL' + JSON.stringify(Math.random() * 10000 + 1000),
-            timestamp: new Date()
-          },
-          ctx
-        )
-        span.log({
-          sql: query['sql'],
-          duration: query['duration'] + 'ms'
-        })
-      })
-    }
-
     knex.client.on('start', captureQueries)
     await next()
     knex.client.removeListener('start', captureQueries)
-    logQueries()
   }
 }
