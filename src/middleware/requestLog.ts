@@ -21,7 +21,7 @@ export const requestLog = () => {
     const reqSpan = createSpan(
       {
         type: 'start',
-        requestId: 'API' + JSON.stringify(Math.random() * 10000 + 1000),
+        requestId: 'API-req' + JSON.stringify(Math.random() * 10000 + 1000),
         timestamp: new Date()
       },
       ctx

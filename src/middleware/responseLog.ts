@@ -93,7 +93,7 @@ export const responseLog = () => {
       const resSpan = createSpan(
         {
           type: 'end',
-          requestId: 'API' + JSON.stringify(Math.random() * 10000 + 1000),
+          requestId: 'API-res' + JSON.stringify(Math.random() * 10000 + 1000),
           timestamp: new Date()
         },
         ctx
