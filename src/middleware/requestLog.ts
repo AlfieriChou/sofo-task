@@ -2,7 +2,7 @@ import { Context } from 'koa'
 import { logger } from '../app/common/logger'
 import * as _ from 'lodash'
 import * as moment from 'moment'
-import { createSpan } from './jaegerTracer'
+import { JaegerTracer } from './jaegerTracer'
 
 interface ReqJson {
   type: string
@@ -18,7 +18,8 @@ interface ReqJson {
 
 export const requestLog = () => {
   return async (ctx: Context, next) => {
-    const reqSpan = createSpan(
+    const jaeger = new JaegerTracer('sofo-req-' + process.env.NODE_ENV || '')
+    const reqSpan = jaeger.createSpan(
       {
         type: 'start',
         requestId: 'API-req' + JSON.stringify(Math.random() * 10000 + 1000),

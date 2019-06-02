@@ -1,17 +1,18 @@
 import * as Knex from 'knex'
-import { createSpan } from './jaegerTracer'
+import { JaegerTracer } from './jaegerTracer'
 import { Context } from 'koa'
 
 export const knexLogger = (knex: Knex) => {
   return async (ctx: Context, next) => {
     const queries: Knex.QueryBuilder[] = []
+    const jaeger = new JaegerTracer('sofo-sql-' + process.env.NODE_ENV || '')
     ctx.queries = queries
 
     const captureQueries = (builder: Knex) => {
       const startTime = process.hrtime()
 
       builder.on('query', (query: Knex.QueryBuilder) => {
-        createSpan(
+        jaeger.createSpan(
           {
             type: 'sql',
             requestId: 'SQL' + JSON.stringify(Math.random() * 10000 + 1000),

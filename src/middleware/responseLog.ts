@@ -1,5 +1,5 @@
 import { Context } from 'koa'
-import { createSpan, finishSpanAll } from './jaegerTracer'
+import { JaegerTracer } from './jaegerTracer'
 import { logger } from '../app/common/logger'
 import * as errStackParser from 'error-stack-parser'
 import * as moment from 'moment'
@@ -77,7 +77,8 @@ export const responseLog = () => {
     try {
       await next()
       logQueries()
-      const resSpan = createSpan(
+      const jaeger = new JaegerTracer('sofo-res-' + process.env.NODE_ENV || '')
+      const resSpan = jaeger.createSpan(
         {
           type: 'end',
           requestId: 'API' + JSON.stringify(Math.random() * 10000 + 1000),
@@ -88,11 +89,12 @@ export const responseLog = () => {
       const resJson = logRes(ctx)
       logger.info(JSON.stringify(resJson))
       resSpan.log({ res: JSON.stringify(resJson) })
-      finishSpanAll(ctx)
+      jaeger.finishSpanAll(ctx)
     } catch (err) {
-      const resSpan = createSpan(
+      const jaeger = new JaegerTracer('sofo-res-' + process.env.NODE_ENV || '')
+      const resSpan = jaeger.createSpan(
         {
-          type: 'end',
+          type: 'error',
           requestId: 'API-res' + JSON.stringify(Math.random() * 10000 + 1000),
           timestamp: new Date()
         },
@@ -109,7 +111,7 @@ export const responseLog = () => {
         fn: errArr[0].functionName,
         filename: errArr[0].fileName
       })
-      finishSpanAll(ctx)
+      jaeger.finishSpanAll(ctx)
       throw err
     }
   }

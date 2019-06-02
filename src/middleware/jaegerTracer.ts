@@ -1,44 +1,8 @@
-import { initTracer as initJaegerTracer } from 'jaeger-client'
+import * as jaeger from 'jaeger-client'
 import * as opentracing from 'opentracing'
 import { logger } from '../app/common/logger'
 import * as _ from 'lodash'
 import { Context } from 'koa'
-
-const initTracer = (serviceName: string) => {
-  const config = {
-    serviceName: serviceName,
-    sampler: {
-      type: 'const',
-      param: 1
-    },
-    reporter: {
-      logSpans: false
-    }
-  }
-  const options = {
-    logger: {
-      info: (msg: string) => {
-        logger.info(msg)
-      },
-      error: (msg: string) => {
-        logger.error(msg)
-      }
-    }
-  }
-  return initJaegerTracer(config, options)
-}
-
-const tracer = initTracer(
-  'sofo-req' + '-' + process.env.NODE_ENV || ''
-) as opentracing.Tracer
-
-const sqlTracer = initTracer(
-  'sofo-sql' + '-' + process.env.NODE_ENV || ''
-) as opentracing.Tracer
-
-const resTracer = initTracer(
-  'sofo-res' + '-' + process.env.NODE_ENV || ''
-) as opentracing.Tracer
 
 interface Record {
   type: string
@@ -46,53 +10,76 @@ interface Record {
   timestamp: Date
 }
 
-const getParentSpan = (ctx: Context) => {
-  return ctx._spans[ctx._spans.length - 1]
-}
-
-export const finishSpanAll = (ctx: Context) => {
-  _.each(ctx._spans, span => span.finish())
-}
-
-export const createSpan = (record: Record, ctx: Context): opentracing.Span => {
-  if (record.type === 'start') {
-    ctx._spans = [] as opentracing.Span[]
-  }
-  const tags = {
-    [opentracing.Tags.HTTP_URL]: ctx.url,
-    requestId: record.requestId
-  }
-  const parentSpan: opentracing.Span = getParentSpan(ctx)
-  let span: opentracing.Span
-  if (parentSpan) {
-    span = tracer.startSpan(ctx.path, {
-      childOf: parentSpan,
-      startTime: record.timestamp.getTime(),
-      tags
-    })
-  } else {
-    span = tracer.startSpan(ctx.path, {
-      childOf: parentSpan,
-      startTime: record.timestamp.getTime(),
-      tags
-    })
+export class JaegerTracer {
+  tracer: opentracing.Tracer
+  constructor(tracerName: string) {
+    this.tracer = this.initTracer(tracerName)
   }
 
-  if (record.type === 'sql') {
-    span = sqlTracer.startSpan(ctx.path, {
-      childOf: parentSpan,
-      startTime: record.timestamp.getTime(),
-      tags
-    })
+  private initTracer(serviceName: string): opentracing.Tracer {
+    const config = {
+      serviceName: serviceName,
+      sampler: {
+        type: 'const',
+        param: 1
+      },
+      reporter: {
+        logSpans: false
+      }
+    }
+    const options = {
+      logger: {
+        info: (msg: string) => {
+          logger.info(msg)
+        },
+        error: (msg: string) => {
+          logger.error(msg)
+        }
+      }
+    }
+    return jaeger.initTracer(config, options)
   }
 
-  if (record.type === 'end') {
-    span = resTracer.startSpan(ctx.path, {
-      childOf: parentSpan,
-      startTime: record.timestamp.getTime(),
-      tags
-    })
+  finishSpanAll(ctx: Context) {
+    _.each(ctx._spans, span => span.finish())
   }
-  ctx._spans.push(span)
-  return span
+
+  private getLastSpan(ctx: Context) {
+    return ctx._spans[ctx._spans.length - 1]
+  }
+
+  public createSpan(record: Record, ctx: Context) {
+    if (record.type === 'start') {
+      ctx._spans = [] as opentracing.Span[]
+    }
+    const tags = {
+      [opentracing.Tags.HTTP_URL]: ctx.url,
+      requestId: record.requestId
+    }
+    const parentSpan: opentracing.Span = this.getLastSpan(ctx)
+    let span: opentracing.Span
+    if (parentSpan) {
+      span = this.tracer.startSpan(ctx.path, {
+        childOf: parentSpan,
+        startTime: record.timestamp.getTime(),
+        tags
+      })
+    } else {
+      span = this.tracer.startSpan(ctx.path, {
+        childOf: parentSpan,
+        startTime: record.timestamp.getTime(),
+        tags
+      })
+    }
+
+    if (record.type === 'error') {
+      span = this.tracer.startSpan(ctx.path, {
+        childOf: parentSpan,
+        startTime: record.timestamp.getTime()
+      })
+      span.setTag(jaeger.opentracing.Tags.ERROR, true)
+    }
+    ctx._spans.push(span)
+    return span
+  }
 }
