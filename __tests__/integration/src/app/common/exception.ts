@@ -10,6 +10,12 @@ import {
 } from '../../../../../src/app/common/exception'
 
 describe('Test exception!!!', () => {
+  test('test Exception getCode and getMessage!!', async done => {
+    expect(new Exception('test', 400).getCode()).toBe(400)
+    expect(new Exception('test', 400).getMessage()).toBe('test')
+    done()
+  })
+
   test('test ApiErrorException!!', async done => {
     const t = () => {
       throw new ApiErrorException('test', 400)
