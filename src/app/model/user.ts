@@ -1,84 +1,100 @@
-import { Length, ValidateIf, IsNumber, IsString } from 'class-validator'
-import { Transform } from 'class-transformer'
-import { property, swaggerTypes, swaggerFormats } from '../decorator/router'
+import {
+  Length, ValidateIf, IsNumber, IsString,
+} from 'class-validator';
+import { Transform } from 'class-transformer';
+import { property, swaggerTypes, swaggerFormats } from '../decorator/router';
 
 export class Register {
   @Length(3, 32)
-  username!: string
+  username!: string;
+
   @Length(6, 32)
-  password!: string
+  password!: string;
+
   @Transform(value => Number(value))
   @ValidateIf(o => o.otherProperty === 'value')
-  age!: number
+  age!: number;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @IsString()
-  description!: string
+  description!: string;
 }
 
 export class Login {
   @Length(3, 32)
-  username!: string
+  username!: string;
+
   @Length(6, 32)
-  password!: string
+  password!: string;
 }
 
 export class User {
   @property({
     type: swaggerTypes.number,
-    description: 'id'
+    description: 'id',
   })
-  id!: number
+  id!: number;
+
   @property({
     type: swaggerTypes.string,
-    description: 'user name'
+    description: 'user name',
   })
-  username!: string
+  username!: string;
+
   @property({
     type: swaggerTypes.string,
-    description: 'password'
+    description: 'password',
   })
-  password!: string
+  password!: string;
+
   @property({
     type: swaggerTypes.number,
-    description: 'age'
+    description: 'age',
   })
-  age!: number
+  age!: number;
+
   @property({
     type: swaggerTypes.string,
-    description: 'description'
+    description: 'description',
   })
-  description!: string
+  description!: string;
+
   @property({
     type: swaggerTypes.string,
-    description: 'user type'
+    description: 'user type',
   })
-  user_type!: string
-  @property({
-    type: swaggerTypes.string,
-    format: swaggerFormats.datetime,
-    description: '创建时间'
-  })
-  created_at!: Date
+  user_type!: string;
+
   @property({
     type: swaggerTypes.string,
     format: swaggerFormats.datetime,
-    description: '更新时间'
+    description: '创建时间',
   })
-  updated_at!: Date
+  created_at!: Date;
+
   @property({
     type: swaggerTypes.string,
     format: swaggerFormats.datetime,
-    description: '删除时间'
+    description: '更新时间',
   })
-  deleted_at!: Date
+  updated_at!: Date;
+
+  @property({
+    type: swaggerTypes.string,
+    format: swaggerFormats.datetime,
+    description: '删除时间',
+  })
+  deleted_at!: Date;
 }
 
 export class Update {
-  id: number
+  id: number;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @IsNumber()
-  age!: number
+  age!: number;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @IsString()
-  description!: string
+  description!: string;
 }

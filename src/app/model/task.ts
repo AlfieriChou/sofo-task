@@ -2,112 +2,133 @@ import {
   IsString,
   IsDateString,
   ValidateIf,
-  IsBooleanString
-} from 'class-validator'
-import { Transform } from 'class-transformer'
-import { property, swaggerTypes, swaggerFormats } from '../decorator/router'
+  IsBooleanString,
+} from 'class-validator';
+import { Transform } from 'class-transformer';
+import { property, swaggerTypes, swaggerFormats } from '../decorator/router';
 
 export class Query {
   @ValidateIf(o => o.otherProperty === 'value')
   @Transform(value => Number(value))
-  id!: number
+  id!: number;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @IsString()
-  tag!: string
+  tag!: string;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @IsDateString()
-  start_at_start!: Date
+  start_at_start!: Date;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @IsDateString()
-  start_at_end!: Date
+  start_at_end!: Date;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @IsString()
-  sort!: string
+  sort!: string;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @IsBooleanString()
-  pagination!: boolean
+  pagination!: boolean;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @Transform(value => Number(value))
-  page!: number
+  page!: number;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @Transform(value => Number(value))
-  size!: number
+  size!: number;
 }
 
 export class Create {
   @Transform(value => Number(value))
-  user_id!: number
+  user_id!: number;
+
   @Transform(value => Number(value))
-  tag_id!: number
+  tag_id!: number;
+
   @IsString()
-  content!: string
+  content!: string;
+
   @IsDateString()
-  start_at!: Date
+  start_at!: Date;
+
   @IsDateString()
-  end_at!: Date
+  end_at!: Date;
 }
 
 export class Update {
   @ValidateIf(o => o.otherProperty === 'value')
   @IsString()
-  content!: string
+  content!: string;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @IsDateString()
-  start_at!: Date
+  start_at!: Date;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @IsDateString()
-  end_at!: Date
+  end_at!: Date;
 }
 
 export class Task {
   @property({
     type: swaggerTypes.number,
-    description: 'id'
+    description: 'id',
   })
-  id!: number
+  id!: number;
+
   @property({
     type: swaggerTypes.number,
-    description: 'user id'
+    description: 'user id',
   })
-  user_id!: number
+  user_id!: number;
+
   @property({
     type: swaggerTypes.number,
-    description: 'tag id'
+    description: 'tag id',
   })
-  tag_id!: number
+  tag_id!: number;
+
   @property({
     type: swaggerTypes.string,
-    description: 'task contents'
+    description: 'task contents',
   })
-  content!: string
-  @property({
-    type: swaggerTypes.string,
-    format: swaggerFormats.datetime,
-    description: '开始时间'
-  })
-  start_at!: Date
+  content!: string;
+
   @property({
     type: swaggerTypes.string,
     format: swaggerFormats.datetime,
-    description: '结束时间'
+    description: '开始时间',
   })
-  end_at!: Date
+  start_at!: Date;
+
   @property({
     type: swaggerTypes.string,
     format: swaggerFormats.datetime,
-    description: '创建时间'
+    description: '结束时间',
   })
-  created_at!: Date
+  end_at!: Date;
+
   @property({
     type: swaggerTypes.string,
     format: swaggerFormats.datetime,
-    description: '更新时间'
+    description: '创建时间',
   })
-  updated_at!: Date
+  created_at!: Date;
+
   @property({
     type: swaggerTypes.string,
     format: swaggerFormats.datetime,
-    description: '删除时间'
+    description: '更新时间',
   })
-  deleted_at!: Date
+  updated_at!: Date;
+
+  @property({
+    type: swaggerTypes.string,
+    format: swaggerFormats.datetime,
+    description: '删除时间',
+  })
+  deleted_at!: Date;
 }

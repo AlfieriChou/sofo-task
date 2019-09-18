@@ -1,9 +1,9 @@
-import * as Koa from 'koa'
-import { Session } from 'koa-generic-session'
-import { IContainer } from './extends/ioc'
-import * as opentracing from 'opentracing'
+import * as Koa from 'koa';
+import { Session } from 'koa-generic-session';
+import * as opentracing from 'opentracing';
+import { IContainer } from './extends/ioc';
 
-export type Middleware = (ctx: Koa.Context, next?: any) => any | Promise<any>
+export type Middleware = (ctx: Koa.Context, next?: any) => any | Promise<any>;
 
 export interface Config {
   env?: string

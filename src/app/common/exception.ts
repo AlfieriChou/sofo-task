@@ -1,74 +1,75 @@
 export class Exception extends Error {
-  public name: string
-  public code: number
+  public name: string;
+
+  public code: number;
 
   constructor(message: string, code: number) {
-    super(message)
+    super(message);
 
-    Object.setPrototypeOf(this, Exception.prototype)
-    Error.captureStackTrace(this, this.constructor)
+    Object.setPrototypeOf(this, Exception.prototype);
+    Error.captureStackTrace(this, this.constructor);
 
-    this.name = this.constructor.name
-    this.code = Number(code)
+    this.name = this.constructor.name;
+    this.code = Number(code);
   }
 
   public getMessage(): string {
-    return this.message
+    return this.message;
   }
 
   public getCode(): number {
-    return this.code
+    return this.code;
   }
 
   public getStackTrace(): any {
-    return this.stack
+    return this.stack;
   }
 }
 
 export class NotImplementedException extends Exception {
   constructor(message: string) {
-    super(message, 501)
+    super(message, 501);
   }
 }
 
 export class DataValidationException extends Exception {
   constructor(message: string) {
-    super(message, 400)
+    super(message, 400);
   }
 }
 
 export class NotFoundException extends Exception {
   constructor(message: string) {
-    super(message, 404)
+    super(message, 404);
   }
 }
 
 export class NotAuthorizedException extends Exception {
   constructor(message: string) {
-    super(message, 401)
+    super(message, 401);
   }
 }
 
 export class RestrictedAccessException extends Exception {
   constructor(message: string) {
-    super(message, 403)
+    super(message, 403);
   }
 }
 
 export class ValidationErrorException extends Exception {
   constructor(message: string) {
-    super(message, 422)
+    super(message, 422);
   }
 }
 
 export class RuntimeException extends Exception {
   constructor(message: string) {
-    super(message, 500)
+    super(message, 500);
   }
 }
 
 export class ApiErrorException extends Exception {
   constructor(message: string, code: number) {
-    super(message, code)
+    super(message, code);
   }
 }

@@ -1,5 +1,5 @@
-import * as request from 'supertest'
-import { app } from '../../src/app'
+import * as request from 'supertest';
+import { app } from '../../src/app';
 
 describe('User register!!!', () => {
   test('username min length!!', async done => {
@@ -9,11 +9,11 @@ describe('User register!!!', () => {
         username: 'a',
         password: 'dddddd',
         age: 32,
-        description: 'csdsds'
-      })
-    expect(response.status).toBe(422)
-    done()
-  })
+        description: 'csdsds',
+      });
+    expect(response.status).toBe(422);
+    done();
+  });
 
   test('username max length!!', async done => {
     const response = await request(app.callback())
@@ -23,11 +23,11 @@ describe('User register!!!', () => {
           'asssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
         password: 'dddddd',
         age: 32,
-        description: 'csdsds'
-      })
-    expect(response.status).toBe(422)
-    done()
-  })
+        description: 'csdsds',
+      });
+    expect(response.status).toBe(422);
+    done();
+  });
 
   test('password min length!!', async done => {
     const response = await request(app.callback())
@@ -36,11 +36,11 @@ describe('User register!!!', () => {
         username: 'addd',
         password: 'dd',
         age: 32,
-        description: 'csdsds'
-      })
-    expect(response.status).toBe(422)
-    done()
-  })
+        description: 'csdsds',
+      });
+    expect(response.status).toBe(422);
+    done();
+  });
 
   test('password max length!!', async done => {
     const response = await request(app.callback())
@@ -50,9 +50,9 @@ describe('User register!!!', () => {
         password:
           'ddsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
         age: 32,
-        description: 'csdsds'
-      })
-    expect(response.status).toBe(422)
-    done()
-  })
-})
+        description: 'csdsds',
+      });
+    expect(response.status).toBe(422);
+    done();
+  });
+});

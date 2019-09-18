@@ -1,21 +1,21 @@
-import * as Router from 'koa-router'
-import * as dir from 'dir_filenames'
-import { resolve } from 'path'
-import { Middleware } from '../../type'
-import { mergeDeep } from '../common'
-import * as OpenApi from 'openapi3-ts'
+import * as Router from 'koa-router';
+import * as dir from 'dir_filenames';
+import { resolve } from 'path';
+import * as OpenApi from 'openapi3-ts';
+import { Middleware } from '../../type';
+import { mergeDeep } from '../common';
 
-const router = new Router()
+const router = new Router();
 
 type Prefix = (
   path: string
-) => (target: any, _key?: string | symbol, _descriptor?: any) => void
+) => (target: any, _key?: string | symbol, _descriptor?: any) => void;
 
 type Route = (
   path: string,
   method: Method,
   ...middleware: Array<Middleware>
-) => (target: any, _key?: string | symbol, descriptor?: any) => void
+) => (target: any, _key?: string | symbol, descriptor?: any) => void;
 
 export enum Method {
   GET,
@@ -24,7 +24,7 @@ export enum Method {
   DELETE
 }
 
-let swagger: OpenApi.OpenAPIObject = {
+const swagger: OpenApi.OpenAPIObject = {
   openapi: '3.0.0',
   info: {
     title: 'SOFO API document',
@@ -33,14 +33,14 @@ let swagger: OpenApi.OpenAPIObject = {
     contact: {
       name: 'AlfieriChou',
       email: 'alfierichou@gmail.com',
-      url: 'https://github.com/AlfieriChou'
-    }
+      url: 'https://github.com/AlfieriChou',
+    },
   },
   paths: {},
   components: {
-    schemas: {}
-  }
-}
+    schemas: {},
+  },
+};
 
 interface FieldProperty {
   type: swaggerTypes
@@ -69,24 +69,22 @@ export enum swaggerFormats {
   uuid = 'uuid'
 }
 
-let schemas: OpenApi.SchemaObject
+let schemas: OpenApi.SchemaObject;
 if (swagger.components && swagger.components.schemas) {
-  schemas = swagger.components.schemas
+  schemas = swagger.components.schemas;
 }
 
-export const property = (field: FieldProperty) => {
-  return (target: any, key: string, _descriptor?: any): void => {
-    const model = {
-      type: 'object',
-      properties: {}
-    }
-    const components = {}
-    model.properties[key] = field
-    const modelName = target.constructor.name
-    components[modelName] = model
-    schemas = mergeDeep(schemas, components)
-  }
-}
+export const property = (field: FieldProperty) => (target: any, key: string, _descriptor?: any): void => {
+  const model = {
+    type: 'object',
+    properties: {},
+  };
+  const components = {};
+  model.properties[key] = field;
+  const modelName = target.constructor.name;
+  components[modelName] = model;
+  schemas = mergeDeep(schemas, components);
+};
 
 interface Property {
   [s: string]: FieldProperty
@@ -116,145 +114,92 @@ interface Response {
   paginate?: boolean
 }
 
-let methods: OpenApi.PathItemObject[] = []
+const methods: OpenApi.PathItemObject[] = [];
 
-export const swaggerInfo = (sinfo: SwaggerInfo) => {
-  return (_target: any, _key?: string | symbol, _descriptor?: any): void => {
-    const content: OpenApi.OperationObject = {
-      tags: sinfo.tags,
-      summary: sinfo.summary || '',
-      responses: {}
+export const swaggerInfo = (sinfo: SwaggerInfo) => (_target: any, _key?: string | symbol, _descriptor?: any): void => {
+  const content: OpenApi.OperationObject = {
+    tags: sinfo.tags,
+    summary: sinfo.summary || '',
+    responses: {},
+  };
+  if (sinfo.query) {
+    const parameters: OpenApi.ParameterObject[] = [];
+    for (const i in sinfo.query) {
+      parameters.push({
+        name: i,
+        in: 'query',
+        description: sinfo.query[i].description,
+        schema: {
+          type: sinfo.query[i].type,
+        },
+        required: false,
+      });
     }
-    if (sinfo.query) {
-      let parameters: OpenApi.ParameterObject[] = []
-      for (let i in sinfo.query) {
-        parameters.push({
-          name: i,
-          in: 'query',
-          description: sinfo.query[i].description,
-          schema: {
-            type: sinfo.query[i].type
-          },
-          required: false
-        })
-      }
-      content.parameters = parameters
-    }
-    if (sinfo.params) {
-      let parameters: OpenApi.ParameterObject[] = []
-      for (let i in sinfo.params) {
-        parameters.push({
-          name: i,
-          in: 'path',
-          description: sinfo.params[i].description,
-          schema: {
-            type: sinfo.params[i].type
-          },
-          required: true
-        })
-      }
-      content.parameters = parameters
-    }
-    if (sinfo.requestBody) {
-      const schema = {
-        type: 'object',
-        properties: {},
-        required: sinfo.requestBody.required
-      }
-      for (let i in sinfo.requestBody.body) {
-        schema.properties[i] = {
-          type: sinfo.requestBody.body[i].type,
-          description: sinfo.requestBody.body[i].description
-        }
-      }
-      content.requestBody = {
+    content.parameters = parameters;
+  }
+  if (sinfo.params) {
+    const parameters: OpenApi.ParameterObject[] = [];
+    for (const i in sinfo.params) {
+      parameters.push({
+        name: i,
+        in: 'path',
+        description: sinfo.params[i].description,
+        schema: {
+          type: sinfo.params[i].type,
+        },
         required: true,
-        content: {
-          'application/json': {
-            schema: schema
-          }
-        }
-      }
+      });
     }
-    if (sinfo.response) {
-      let responses: OpenApi.ResponsesObject = content.responses
-      let response: OpenApi.ResponseObject = {
+    content.parameters = parameters;
+  }
+  if (sinfo.requestBody) {
+    const schema = {
+      type: 'object',
+      properties: {},
+      required: sinfo.requestBody.required,
+    };
+    for (const i in sinfo.requestBody.body) {
+      schema.properties[i] = {
+        type: sinfo.requestBody.body[i].type,
+        description: sinfo.requestBody.body[i].description,
+      };
+    }
+    content.requestBody = {
+      required: true,
+      content: {
+        'application/json': {
+          schema,
+        },
+      },
+    };
+  }
+  if (sinfo.response) {
+    const { responses } = content;
+    let response: OpenApi.ResponseObject = {
+      description: sinfo.response.description || '',
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: {
+              result: { type: swaggerTypes.string, description: '返回标识' },
+            },
+          },
+        },
+      },
+    };
+    if (sinfo.response.schema && sinfo.response.res_type === 'object') {
+      response = {
         description: sinfo.response.description || '',
         content: {
           'application/json': {
-            schema: {
-              type: 'object',
-              properties: {
-                result: { type: swaggerTypes.string, description: '返回标识' }
-              }
-            }
-          }
-        }
-      }
-      if (sinfo.response.schema && sinfo.response.res_type === 'object') {
-        response = {
-          description: sinfo.response.description || '',
-          content: {
-            'application/json': {
-              schema: schemas[sinfo.response.schema]
-            }
-          }
-        }
-      }
-      if (sinfo.response.schema && sinfo.response.res_type === 'array') {
-        if (sinfo.response.paginate) {
-          response = {
-            description: sinfo.response.description || '',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    result: {
-                      type: 'array',
-                      items: schemas[sinfo.response.schema]
-                    },
-                    paginate: {
-                      type: 'object',
-                      properties: {
-                        page: {
-                          type: swaggerTypes.number,
-                          description: '页码'
-                        },
-                        size: {
-                          type: swaggerTypes.number,
-                          description: '条数'
-                        },
-                        row_count: {
-                          type: swaggerTypes.number,
-                          description: '总数'
-                        },
-                        page_count: {
-                          type: swaggerTypes.number,
-                          description: '页码总数'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        } else {
-          response = {
-            description: sinfo.response.description || '',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'array',
-                  items: schemas[sinfo.response.schema]
-                }
-              }
-            }
-          }
-        }
-      }
-      if (sinfo.response.res_type === 'number') {
+            schema: schemas[sinfo.response.schema],
+          },
+        },
+      };
+    }
+    if (sinfo.response.schema && sinfo.response.res_type === 'array') {
+      if (sinfo.response.paginate) {
         response = {
           description: sinfo.response.description || '',
           content: {
@@ -262,46 +207,93 @@ export const swaggerInfo = (sinfo: SwaggerInfo) => {
               schema: {
                 type: 'object',
                 properties: {
-                  result: { type: swaggerTypes.number, description: '返回标识' }
-                }
-              }
-            }
-          }
-        }
+                  result: {
+                    type: 'array',
+                    items: schemas[sinfo.response.schema],
+                  },
+                  paginate: {
+                    type: 'object',
+                    properties: {
+                      page: {
+                        type: swaggerTypes.number,
+                        description: '页码',
+                      },
+                      size: {
+                        type: swaggerTypes.number,
+                        description: '条数',
+                      },
+                      row_count: {
+                        type: swaggerTypes.number,
+                        description: '总数',
+                      },
+                      page_count: {
+                        type: swaggerTypes.number,
+                        description: '页码总数',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        };
+      } else {
+        response = {
+          description: sinfo.response.description || '',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'array',
+                items: schemas[sinfo.response.schema],
+              },
+            },
+          },
+        };
       }
-      responses[sinfo.response.status] = response
     }
-    let swaggerMethod: OpenApi.PathItemObject = {}
-    swaggerMethod[sinfo.method] = content
-    let swaggerPath: OpenApi.PathObject = {}
-    swaggerPath[sinfo.path] = swaggerMethod
-    methods.push(swaggerPath)
+    if (sinfo.response.res_type === 'number') {
+      response = {
+        description: sinfo.response.description || '',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                result: { type: swaggerTypes.number, description: '返回标识' },
+              },
+            },
+          },
+        },
+      };
+    }
+    responses[sinfo.response.status] = response;
   }
-}
+  const swaggerMethod: OpenApi.PathItemObject = {};
+  swaggerMethod[sinfo.method] = content;
+  const swaggerPath: OpenApi.PathObject = {};
+  swaggerPath[sinfo.path] = swaggerMethod;
+  methods.push(swaggerPath);
+};
 
-export const prefix: Prefix = (path: string = '') => {
-  return (target: any, _key?: string | symbol, _descriptor?: any): void => {
-    prefixUpdateRoute(target, path)
-  }
-}
+export const prefix: Prefix = (path: string = '') => (target: any, _key?: string | symbol, _descriptor?: any): void => {
+  prefixUpdateRoute(target, path);
+};
 
 export const route: Route = (
   path: string,
   method: Method,
   ...middleware: Array<Middleware>
-) => {
-  return (target: any, _key?: string | symbol, descriptor?: any): void => {
-    routeUpdate(target, method, path, descriptor, ...middleware)
-  }
-}
+) => (target: any, _key?: string | symbol, descriptor?: any): void => {
+  routeUpdate(target, method, path, descriptor, ...middleware);
+};
 
 const prefixUpdateRoute = (target: any, path: string): void => {
   if (!target.prototype.router) {
-    target.prototype.router = new Router()
+    target.prototype.router = new Router();
   }
-  router.use(path, target.prototype.router.routes())
-  router.use(path, target.prototype.router.allowedMethods())
-}
+  router.use(path, target.prototype.router.routes());
+  router.use(path, target.prototype.router.allowedMethods());
+};
 
 const routeUpdate = (
   target: any,
@@ -311,41 +303,41 @@ const routeUpdate = (
   ...middleware: Array<Middleware>
 ) => {
   if (!target.router) {
-    target.router = new Router()
+    target.router = new Router();
   }
   switch (method) {
     case Method.GET:
-      target.router.get(path, ...middleware, descriptor.value)
-      break
+      target.router.get(path, ...middleware, descriptor.value);
+      break;
     case Method.PUT:
-      target.router.put(path, ...middleware, descriptor.value)
-      break
+      target.router.put(path, ...middleware, descriptor.value);
+      break;
     case Method.POST:
-      target.router.post(path, ...middleware, descriptor.value)
-      break
+      target.router.post(path, ...middleware, descriptor.value);
+      break;
     case Method.DELETE:
-      target.router.del(path, ...middleware, descriptor.value)
-      break
+      target.router.del(path, ...middleware, descriptor.value);
+      break;
     default:
-      throw new Error('@route decorator "method" is not valid')
+      throw new Error('@route decorator "method" is not valid');
   }
-}
+};
 
 export const loadControllers = () => {
-  const files: string[] = dir(resolve(__dirname, '../controller'))
+  const files: string[] = dir(resolve(__dirname, '../controller'));
   files.map(file => {
-    require(file)
-  })
-  let mergeMethod: OpenApi.PathsObject = {}
+    require(file);
+  });
+  let mergeMethod: OpenApi.PathsObject = {};
   for (let i = 0; i < methods.length; ++i) {
-    mergeMethod = mergeDeep(mergeMethod, methods[i])
+    mergeMethod = mergeDeep(mergeMethod, methods[i]);
   }
-  swagger.paths = mergeMethod
+  swagger.paths = mergeMethod;
   router.get('/v1/swagger.json', async ctx => {
-    ctx.body = swagger
-  })
+    ctx.body = swagger;
+  });
   router.get('/v1/apidoc', async ctx => {
-    await ctx.render('index.html', { url: '/v1/swagger.json' })
-  })
-  return router
-}
+    await ctx.render('index.html', { url: '/v1/swagger.json' });
+  });
+  return router;
+};

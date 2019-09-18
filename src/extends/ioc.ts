@@ -1,7 +1,7 @@
-import { TagService } from '../app/service/tag'
-import { Container } from 'typedi'
-import { UserService } from '../app/service/user'
-import { TaskService } from '../app/service/task'
+import { Container } from 'typedi';
+import { TagService } from '../app/service/tag';
+import { UserService } from '../app/service/user';
+import { TaskService } from '../app/service/task';
 
 export interface IContainer {
   tag: TagService
@@ -12,5 +12,5 @@ export interface IContainer {
 export const container: IContainer = {
   tag: Container.get(TagService),
   user: Container.get(UserService),
-  task: Container.get(TaskService)
-}
+  task: Container.get(TaskService),
+};

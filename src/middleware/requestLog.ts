@@ -1,8 +1,8 @@
-import { Context } from 'koa'
-import { logger } from '../app/common/logger'
-import * as _ from 'lodash'
-import * as moment from 'moment'
-import { JaegerTracer } from './jaegerTracer'
+import { Context } from 'koa';
+import * as _ from 'lodash';
+import * as moment from 'moment';
+import { logger } from '../app/common/logger';
+import { JaegerTracer } from './jaegerTracer';
 
 interface ReqJson {
   type: string
@@ -16,37 +16,35 @@ interface ReqJson {
   req_contentType: string
 }
 
-export const requestLog = () => {
-  return async (ctx: Context, next) => {
-    const jaeger = new JaegerTracer('sofo-req-' + process.env.NODE_ENV || '')
-    const reqSpan = jaeger.createSpan(
-      {
-        type: 'start',
-        requestId: 'API-req' + JSON.stringify(Math.random() * 10000 + 1000),
-        timestamp: new Date()
-      },
-      ctx
-    )
-    const ts = moment().format('YYYY-MM-DD HH:mm:ss')
-    const reqJson: ReqJson = {
-      type: 'request',
-      req_method: ctx.method,
-      req_path: ctx.path,
-      req_time: ts,
-      req_ip: ctx.ip,
-      req_body: _.clone(ctx.request.body) || '',
-      req_query: _.clone(ctx.query) || '',
-      req_params: _.clone(ctx.params) || '',
-      req_contentType: ctx.get('Content-Type')
-    }
-    if (reqJson.req_body['password']) {
-      reqJson.req_body['password'] = '******'
-    }
-    if (reqJson.req_params['password']) {
-      reqJson.req_params['password'] = '******'
-    }
-    logger.info(JSON.stringify(reqJson))
-    reqSpan.log({ req: JSON.stringify(reqJson) })
-    await next()
+export const requestLog = () => async (ctx: Context, next) => {
+  const jaeger = new JaegerTracer(`sofo-req-${process.env.NODE_ENV}` || '');
+  const reqSpan = jaeger.createSpan(
+    {
+      type: 'start',
+      requestId: `API-req${JSON.stringify(Math.random() * 10000 + 1000)}`,
+      timestamp: new Date(),
+    },
+    ctx,
+  );
+  const ts = moment().format('YYYY-MM-DD HH:mm:ss');
+  const reqJson: ReqJson = {
+    type: 'request',
+    req_method: ctx.method,
+    req_path: ctx.path,
+    req_time: ts,
+    req_ip: ctx.ip,
+    req_body: _.clone(ctx.request.body) || '',
+    req_query: _.clone(ctx.query) || '',
+    req_params: _.clone(ctx.params) || '',
+    req_contentType: ctx.get('Content-Type'),
+  };
+  if (reqJson.req_body.password) {
+    reqJson.req_body.password = '******';
   }
-}
+  if (reqJson.req_params.password) {
+    reqJson.req_params.password = '******';
+  }
+  logger.info(JSON.stringify(reqJson));
+  reqSpan.log({ req: JSON.stringify(reqJson) });
+  await next();
+};

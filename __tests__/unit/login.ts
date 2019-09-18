@@ -1,5 +1,5 @@
-import * as request from 'supertest'
-import { app } from '../../src/app'
+import * as request from 'supertest';
+import { app } from '../../src/app';
 
 describe('User login!!!', () => {
   test('username min length!!', async done => {
@@ -7,11 +7,11 @@ describe('User login!!!', () => {
       .post('/v1/login')
       .send({
         username: 'a',
-        password: 'dddddd'
-      })
-    expect(response.status).toBe(422)
-    done()
-  })
+        password: 'dddddd',
+      });
+    expect(response.status).toBe(422);
+    done();
+  });
 
   test('username max length!!', async done => {
     const response = await request(app.callback())
@@ -19,22 +19,22 @@ describe('User login!!!', () => {
       .send({
         username:
           'asssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
-        password: 'dddddd'
-      })
-    expect(response.status).toBe(422)
-    done()
-  })
+        password: 'dddddd',
+      });
+    expect(response.status).toBe(422);
+    done();
+  });
 
   test('password min length!!', async done => {
     const response = await request(app.callback())
       .post('/v1/login')
       .send({
         username: 'addd',
-        password: 'dd'
-      })
-    expect(response.status).toBe(422)
-    done()
-  })
+        password: 'dd',
+      });
+    expect(response.status).toBe(422);
+    done();
+  });
 
   test('password max length!!', async done => {
     const response = await request(app.callback())
@@ -42,20 +42,20 @@ describe('User login!!!', () => {
       .send({
         username: 'addd',
         password:
-          'ddsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss'
-      })
-    expect(response.status).toBe(422)
-    done()
-  })
+          'ddsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
+      });
+    expect(response.status).toBe(422);
+    done();
+  });
 
   test('username login!!', async done => {
     const response = await request(app.callback())
       .post('/v1/login')
       .send({
         username: 'wang',
-        password: 'jundasdasd'
-      })
-    expect(response.status).toBe(200)
-    done()
-  })
-})
+        password: 'jundasdasd',
+      });
+    expect(response.status).toBe(200);
+    done();
+  });
+});

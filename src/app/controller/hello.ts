@@ -1,5 +1,7 @@
-import { prefix, route, Method, swaggerInfo } from '../decorator/router'
-import { Context } from 'koa'
+import { Context } from 'koa';
+import {
+  prefix, route, Method, swaggerInfo,
+} from '../decorator/router';
 
 @prefix('/')
 export class HelloController {
@@ -11,10 +13,10 @@ export class HelloController {
     summary: 'ping api heath',
     response: {
       status: 200,
-      description: 'ping api heath'
-    }
+      description: 'ping api heath',
+    },
   })
   async index(ctx: Context) {
-    ctx.body = 'Hello sofo task!!!'
+    ctx.body = 'Hello sofo task!!!';
   }
 }

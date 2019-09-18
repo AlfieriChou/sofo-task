@@ -1,53 +1,51 @@
-import * as jwt from 'jsonwebtoken'
-import { promisify } from 'util'
-import { JWTPath } from './JWTpath'
-import { Context } from 'koa'
+import * as jwt from 'jsonwebtoken';
+import { promisify } from 'util';
+import { Context } from 'koa';
+import { JWTPath } from './JWTpath';
 
-const secret: string = 'sofo'
-const verify = promisify(jwt.verify)
+const secret: string = 'sofo';
+const verify = promisify(jwt.verify);
 
-export const JWTMiddleware = () => {
-  return async (ctx: Context, next) => {
-    if (JWTPath.includes(ctx.request.url)) {
-      await next()
-      return false
-    }
+export const JWTMiddleware = () => async (ctx: Context, next) => {
+  if (JWTPath.includes(ctx.request.url)) {
+    await next();
+    return false;
+  }
 
+  try {
+    const token = ctx.header.authorization;
+    if (!token) ctx.throw(400, 'token不存在');
+    if (!ctx.session) ctx.throw(401, '请重新登录');
+    let payload;
     try {
-      const token = ctx.header.authorization
-      if (!token) ctx.throw(400, 'token不存在')
-      if (!ctx.session) ctx.throw(401, '请重新登录')
-      let payload
-      try {
-        payload = await verify(token.split(' ')[1], secret)
-        ctx.user = {
-          username: payload.username,
-          age: payload.age,
-          id: payload.id
-        }
-      } catch (err) {
-        ctx.status = 401
-        ctx.body = {
-          code: 401,
-          message: 'Token身份无效!'
-        }
-      }
-      await next()
+      payload = await verify(token.split(' ')[1], secret);
+      ctx.user = {
+        username: payload.username,
+        age: payload.age,
+        id: payload.id,
+      };
     } catch (err) {
-      if (err.status === 401) {
-        ctx.status = 401
-        ctx.body = {
-          code: 401,
-          err
-        }
-      } else {
-        ctx.status = err.statusCode || err.status || 500
-        ctx.body = {
-          code: ctx.status,
-          message: err.message,
-          stack: err.stack
-        }
-      }
+      ctx.status = 401;
+      ctx.body = {
+        code: 401,
+        message: 'Token身份无效!',
+      };
+    }
+    await next();
+  } catch (err) {
+    if (err.status === 401) {
+      ctx.status = 401;
+      ctx.body = {
+        code: 401,
+        err,
+      };
+    } else {
+      ctx.status = err.statusCode || err.status || 500;
+      ctx.body = {
+        code: ctx.status,
+        message: err.message,
+        stack: err.stack,
+      };
     }
   }
-}
+};

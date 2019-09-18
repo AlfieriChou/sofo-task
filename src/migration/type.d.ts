@@ -1,4 +1,4 @@
-import { Operation } from './enum'
+import { Operation } from './enum';
 
 export interface Migration {
   opt: Operation

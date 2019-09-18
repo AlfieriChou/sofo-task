@@ -1,14 +1,14 @@
-import * as Knex from 'knex'
-import { join } from 'path'
-import { Config } from '../type'
+import * as Knex from 'knex';
+import { join } from 'path';
+import { Config } from '../type';
 
-let env: string = process.argv[2]
+let env: string = process.argv[2];
 if (!env) {
-  env = 'default'
+  env = 'default';
 }
 
-const configPath = join(__dirname, '../config', `config.${env}.ts`)
-const config: Config = require(configPath).config
+const configPath = join(__dirname, '../config', `config.${env}.ts`);
+const { config } = require(configPath);
 
 export const db: Knex = Knex({
   client: 'mysql',
@@ -19,6 +19,6 @@ export const db: Knex = Knex({
     database: config.mysql.database,
     supportBigNumbers: true,
     charset: 'utf8mb4',
-    connectTimeout: 15000
-  }
-})
+    connectTimeout: 15000,
+  },
+});

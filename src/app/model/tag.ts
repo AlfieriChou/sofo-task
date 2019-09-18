@@ -1,84 +1,101 @@
-import { Length, ValidateIf, IsString, IsBooleanString } from 'class-validator'
-import { Transform } from 'class-transformer'
-import { property, swaggerTypes, swaggerFormats } from '../decorator/router'
+import {
+  Length, ValidateIf, IsString, IsBooleanString,
+} from 'class-validator';
+import { Transform } from 'class-transformer';
+import { property, swaggerTypes, swaggerFormats } from '../decorator/router';
 
 export class Query {
   @ValidateIf(o => o.otherProperty === 'value')
   @Transform(value => Number(value))
-  id!: number
+  id!: number;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @Transform(value => Number(value))
-  user_id!: number
+  user_id!: number;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @IsString()
-  tag!: string
+  tag!: string;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @IsString()
-  sort!: string
+  sort!: string;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @IsBooleanString()
-  pagination!: boolean
+  pagination!: boolean;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @Transform(value => Number(value))
-  page!: number
+  page!: number;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @Transform(value => Number(value))
-  size!: number
+  size!: number;
 }
 
 export class Create {
   @Transform(value => Number(value))
-  user_id!: number
+  user_id!: number;
+
   @Length(1, 16)
-  tag!: string
-  description!: string
+  tag!: string;
+
+  description!: string;
 }
 
 export class Update {
   @Transform(value => Number(value))
-  id: number
+  id: number;
+
   @ValidateIf(o => o.otherProperty === 'value')
   @IsString()
-  description!: string
+  description!: string;
 }
 
 export class Tag {
   @property({
     type: swaggerTypes.number,
-    description: 'id'
+    description: 'id',
   })
-  id!: number
+  id!: number;
+
   @property({
     type: swaggerTypes.number,
-    description: 'user id'
+    description: 'user id',
   })
-  user_id!: number
+  user_id!: number;
+
   @property({
     type: swaggerTypes.string,
-    description: 'tag'
+    description: 'tag',
   })
-  tag!: string
+  tag!: string;
+
   @property({
     type: swaggerTypes.string,
-    description: 'tag description'
+    description: 'tag description',
   })
-  description!: string
-  @property({
-    type: swaggerTypes.string,
-    format: swaggerFormats.datetime,
-    description: '创建时间'
-  })
-  created_at!: Date
+  description!: string;
+
   @property({
     type: swaggerTypes.string,
     format: swaggerFormats.datetime,
-    description: '更新时间'
+    description: '创建时间',
   })
-  updated_at!: Date
+  created_at!: Date;
+
   @property({
     type: swaggerTypes.string,
     format: swaggerFormats.datetime,
-    description: '删除时间'
+    description: '更新时间',
   })
-  deleted_at!: Date
+  updated_at!: Date;
+
+  @property({
+    type: swaggerTypes.string,
+    format: swaggerFormats.datetime,
+    description: '删除时间',
+  })
+  deleted_at!: Date;
 }
