@@ -77,7 +77,7 @@
     "jaeger-client": "3.15.0",
     "jsonwebtoken": "8.5.1",
     "knex": "0.17.0",
-    "koa": "2.7.0",
+    "koa": "2.16.4",
     "koa-bodyparser": "4.2.1",
     "koa-generic-session": "2.0.1",
     "koa-jwt": "3.5.1",
