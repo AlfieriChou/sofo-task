@@ -75,7 +75,7 @@
     "dir_filenames": "1.0.6",
     "error-stack-parser": "2.0.2",
     "jaeger-client": "3.15.0",
-    "jsonwebtoken": "8.5.1",
+    "jsonwebtoken": "9.0.0",
     "knex": "0.17.0",
     "koa": "2.7.0",
     "koa-bodyparser": "4.2.1",
